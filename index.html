@@ -803,9 +803,9 @@
             <div class="s">Across filtered live cards</div>
           </div>
           <div class="metric">
-            <div class="k">Top margin</div>
-            <div class="v" id="metricTopMargin">0%</div>
-            <div class="s">Best current pricing edge</div>
+            <div class="k">Top gross margin</div>
+            <div class="v" id="metricTopMargin">£0</div>
+            <div class="s">Estimated value post works less ask and works</div>
           </div>
           <div class="metric">
             <div class="k">Price drop flags</div>
@@ -830,10 +830,10 @@
           <h3>Investor focus</h3>
           <ul>
             <li>Multi-strategy scoring rather than one generic score</li>
-            <li>Deal cards now include images and listing links</li>
+            <li>Rich acquisition model: value, works, rent and market timing</li>
             <li>Flags for stale listings and price reductions</li>
             <li>Shortlist layer with persistent notes</li>
-            <li>Next step: connected to live API endpoints</li>
+            <li>API-ready structure for deeper live ingestion</li>
           </ul>
         </div>
 
@@ -869,7 +869,7 @@
         </div>
 
         <div class="field">
-          <label for="maxPriceFilter">Max price (£)</label>
+          <label for="maxPriceFilter">Max asking price (£)</label>
           <input class="control" id="maxPriceFilter" type="number" value="700000" />
         </div>
 
@@ -907,7 +907,7 @@
             <option value="score">Master score</option>
             <option value="price-asc">Price ascending</option>
             <option value="price-desc">Price descending</option>
-            <option value="profit">Margin</option>
+            <option value="profit">Gross margin</option>
             <option value="days">Days on market</option>
           </select>
         </div>
@@ -920,7 +920,7 @@
       </div>
 
       <div class="filters-note">
-        This interface loads from the API layer. Each deal card can now show a property image, a listing button, and a persistent shortlist action.
+        This interface loads from the API layer and now supports the richer acquisition model: asking price, works, value, rent, DOM and strategy hints.
       </div>
     </section>
 
@@ -978,7 +978,7 @@
     </section>
 
     <div class="footer-note">
-      V5 shortlist-enabled interface with support for old and new scoring schemas.
+      V5 shortlist-enabled interface using the richer acquisition schema.
     </div>
   </div>
 
@@ -992,85 +992,67 @@
     function demoDeals() {
       return [
         {
-          id: "easton_hmo_001",
-          title: "Easton",
-          address: "Easton, Bristol",
-          area: "Easton",
-          summary: "Large terrace with HMO angle",
-          fullSummary: "Strong HMO-style angle with large internal footprint, value-add scope and decent liquidity relative to ask.",
-          image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80",
-          link: "https://www.rightmove.co.uk/",
-          source: "Rightmove",
-          ask: 410000,
-          score: 100,
-          profit: 80000,
-          margin: 19,
+          title: "Brislington refurbishment opportunity",
+          area: "Bristol",
+          microLocation: "Brislington",
+          postcode: "BS4",
+          askingPrice: 435000,
+          estimatedValueNow: 495000,
+          estimatedValuePostWorks: 585000,
+          localBenchmarkPSF: 404,
+          pricePerSqft: 323,
           beds: 4,
-          daysOnMarket: 46,
+          sqft: 1345,
+          refurbCost: 55000,
+          annualRent: 28800,
+          dom: 42,
           priceDrop: false,
-          stale: false,
-          strategyTags: ["HMO", "Refurb", "Yield"],
-          strategies: { best: 100, flips: 81, btl: 74, hmo: 100, reconfig: 79, "price-drop": 52, stale: 45 },
-          type: "Terrace",
-          rentalAngle: "Potential 6-bed HMO angle",
-          risk: "Check licensing and room sizing",
-          reviewStatus: "New",
-          estimatedValue: 0,
-          refurbCost: 0
-        },
-        {
-          id: "brislington_flip_002",
-          title: "Brislington",
-          address: "Brislington, Bristol",
-          area: "Brislington",
-          summary: "Brislington refurbishment opportunity",
-          fullSummary: "Classic refurb-and-resale profile with enough spread against finished values to justify deeper review.",
-          image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1400&q=80",
-          link: "https://www.zoopla.co.uk/",
-          source: "Zoopla",
-          ask: 435000,
-          score: 99,
-          profit: 95000,
-          margin: 18,
-          beds: 3,
-          daysOnMarket: 71,
-          priceDrop: true,
-          stale: true,
-          strategyTags: ["Flip", "Works", "Margin"],
-          strategies: { best: 99, flips: 99, btl: 68, hmo: 56, reconfig: 74, "price-drop": 88, stale: 83 },
-          type: "Semi-detached",
-          rentalAngle: "Limited pure yield angle",
-          risk: "Refurb budget discipline required",
-          reviewStatus: "New",
-          estimatedValue: 0,
-          refurbCost: 0
-        },
-        {
-          id: "portishead_btl_003",
-          title: "Portishead",
-          address: "Portishead, Bristol fringe",
-          area: "Portishead",
-          summary: "Portishead value-add semi",
-          fullSummary: "Solid suburban stock with sensible downside and potential upside through internal improvement and stronger presentation.",
+          strategyHint: "flip",
           image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1400&q=80",
-          link: "https://www.onthemarket.com/",
-          source: "OnTheMarket",
-          ask: 350000,
-          score: 98,
-          profit: 65000,
-          margin: 16,
-          beds: 3,
-          daysOnMarket: 38,
+          link: "https://example.com/listing/brislington-house",
+          source: "Rightmove"
+        },
+        {
+          title: "Large terrace with HMO angle",
+          area: "Bristol",
+          microLocation: "Easton",
+          postcode: "BS5",
+          askingPrice: 410000,
+          estimatedValueNow: 455000,
+          estimatedValuePostWorks: 560000,
+          localBenchmarkPSF: 388,
+          pricePerSqft: 295,
+          beds: 5,
+          sqft: 1390,
+          refurbCost: 70000,
+          annualRent: 40200,
+          dom: 76,
           priceDrop: true,
-          stale: false,
-          strategyTags: ["BTL", "Family", "Value-add"],
-          strategies: { best: 98, flips: 72, btl: 98, hmo: 49, reconfig: 66, "price-drop": 84, stale: 47 },
-          type: "Semi-detached",
-          rentalAngle: "Strong vanilla BTL profile",
-          risk: "Check local rent reality vs underwriting",
-          reviewStatus: "New",
-          estimatedValue: 0,
-          refurbCost: 0
+          strategyHint: "hmo",
+          image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80",
+          link: "https://example.com/listing/easton-terrace",
+          source: "Zoopla"
+        },
+        {
+          title: "Portishead value-add semi",
+          area: "Portishead",
+          microLocation: "Portishead",
+          postcode: "BS20",
+          askingPrice: 350000,
+          estimatedValueNow: 390000,
+          estimatedValuePostWorks: 455000,
+          localBenchmarkPSF: 372,
+          pricePerSqft: 298,
+          beds: 3,
+          sqft: 1175,
+          refurbCost: 40000,
+          annualRent: 20400,
+          dom: 94,
+          priceDrop: true,
+          strategyHint: "flip",
+          image: "https://images.unsplash.com/photo-1560184897-ae75f418493e?auto=format&fit=crop&w=1400&q=80",
+          link: "https://example.com/listing/portishead-semi",
+          source: "OnTheMarket"
         }
       ];
     }
@@ -1096,89 +1078,142 @@
         .replaceAll("'", "&#039;");
     }
 
-    function computeMargin(price, estimatedValue, refurbCost, explicitMargin) {
-      const explicit = Number(explicitMargin || 0);
-      if (explicit) return explicit;
-
-      const priceNum = Number(price || 0);
-      const valueNum = Number(estimatedValue || 0);
-      const refurbNum = Number(refurbCost || 0);
-
-      if (valueNum > 0) {
-        return valueNum - priceNum - refurbNum;
-      }
-
-      return 0;
+    function safeDivide(a, b) {
+      return b ? a / b : 0;
     }
 
-    function normalizeApiDeal(item) {
-      const price = Number(item.price || item.ask || 0);
-      const estimatedValue = Number(item.estimatedValue || 0);
-      const refurbCost = Number(item.refurbCost || 0);
+    function clamp(n, min, max) {
+      return Math.max(min, Math.min(max, n));
+    }
 
-      const masterScore = Number(item.scores?.master ?? item.score ?? 0);
-      const bmvScore = Number(item.scores?.bmv ?? masterScore);
-      const flipScore = Number(item.scores?.flip ?? masterScore);
-      const hmoScore = Number(item.scores?.hmo ?? masterScore);
+    function computeGrossMargin(item) {
+      const asking = Number(item.askingPrice || 0);
+      const postWorks = Number(item.estimatedValuePostWorks || 0);
+      const works = Number(item.refurbCost || 0);
+      if (!postWorks) return 0;
+      return postWorks - asking - works;
+    }
 
-      const strategyTags = Array.isArray(item.tags)
-        ? item.tags
-        : Array.isArray(item.strategy)
-        ? item.strategy
-        : [];
+    function computeYield(item) {
+      const annualRent = Number(item.annualRent || 0);
+      const asking = Number(item.askingPrice || 0);
+      return asking ? (annualRent / asking) * 100 : 0;
+    }
 
-      const area = item.area || (item.address ? item.address.split(",")[0].trim() : "Greater Bristol");
-      const marginValue = computeMargin(price, estimatedValue, refurbCost, item.margin);
-      const daysOnMarket = Number(item.daysOnMarket || 0);
-      const priceDrop = Boolean(item.priceDrop);
-      const stale = Boolean(item.stale || daysOnMarket >= 60);
+    function computeBmvScore(item) {
+      const benchmark = Number(item.localBenchmarkPSF || 0);
+      const ppsf = Number(item.pricePerSqft || 0);
+      const discountRatio = benchmark > 0 ? (benchmark - ppsf) / benchmark : 0;
+      const domBoost = clamp(Number(item.dom || 0) / 4, 0, 25);
+      const dropBoost = item.priceDrop ? 10 : 0;
+      const base = 50 + clamp(discountRatio * 100, -10, 30) + domBoost + dropBoost;
+      return Math.round(clamp(base, 0, 100));
+    }
+
+    function computeFlipScore(item) {
+      const margin = computeGrossMargin(item);
+      const works = Number(item.refurbCost || 0);
+      const marginToWorks = works > 0 ? margin / works : 0;
+      const domBoost = clamp(Number(item.dom || 0) / 6, 0, 15);
+      const base = 45 + clamp(margin / 3000, 0, 30) + clamp(marginToWorks * 10, 0, 15) + domBoost;
+      return Math.round(clamp(base, 0, 100));
+    }
+
+    function computeHmoScore(item) {
+      const beds = Number(item.beds || 0);
+      const rent = Number(item.annualRent || 0);
+      const asking = Number(item.askingPrice || 0);
+      const yieldPct = computeYield(item);
+      const sizeBoost = beds >= 5 ? 20 : beds >= 4 ? 12 : beds >= 3 ? 6 : 0;
+      const yieldBoost = clamp(yieldPct * 3, 0, 25);
+      const priceBoost = asking <= 450000 ? 8 : 0;
+      const rentBoost = rent >= 35000 ? 12 : rent >= 25000 ? 6 : 0;
+      const base = 35 + sizeBoost + yieldBoost + priceBoost + rentBoost;
+      return Math.round(clamp(base, 0, 100));
+    }
+
+    function computeScores(item) {
+      const bmv = computeBmvScore(item);
+      const flip = computeFlipScore(item);
+      const hmo = computeHmoScore(item);
+      const master = Math.round((0.35 * bmv) + (0.35 * flip) + (0.30 * hmo));
+      return { bmv, flip, hmo, master };
+    }
+
+    function strategyTagsFromHint(hint) {
+      if (!hint) return [];
+      if (hint === "flip") return ["Flip", "Works"];
+      if (hint === "hmo") return ["HMO", "Yield"];
+      if (hint === "btl") return ["BTL", "Income"];
+      if (hint === "reconfig") return ["Reconfig", "Value-add"];
+      return [hint];
+    }
+
+    function normalizeApiDeal(item, index = 0) {
+      const scores = computeScores(item);
+      const grossMargin = computeGrossMargin(item);
+      const area = item.microLocation || item.area || "Greater Bristol";
+      const summary = item.summary || `${item.strategyHint ? item.strategyHint.toUpperCase() : "Deal"} opportunity in ${area}`;
+      const tags = item.tags || strategyTagsFromHint(item.strategyHint);
+      const stale = Number(item.dom || 0) >= 60;
 
       return {
-        id: item.id,
-        title: item.title || item.address || "Untitled",
-        address: item.address || "",
+        id: item.id || `deal_${index + 1}_${area.replace(/\s+/g, "_").toLowerCase()}`,
+        title: item.title || "Untitled",
+        address: [item.microLocation, item.area, item.postcode].filter(Boolean).join(", "),
         area,
-        summary: item.summary || "Property surfaced by API.",
-        fullSummary: item.summary || "Property surfaced by API.",
+        summary,
+        fullSummary: summary,
         image: item.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80",
         link: item.link || "#",
         source: item.source || "API",
-        ask: price,
-        score: masterScore,
-        profit: marginValue,
-        margin: marginValue,
+        ask: Number(item.askingPrice || 0),
         beds: Number(item.beds || 0),
-        daysOnMarket,
-        priceDrop,
-        stale,
-        strategyTags,
-        strategies: {
-          best: masterScore,
-          flips: flipScore,
-          btl: bmvScore,
-          hmo: hmoScore,
-          reconfig: flipScore,
-          "price-drop": priceDrop ? Math.max(masterScore, 80) : masterScore,
-          stale: stale ? Math.max(masterScore, 80) : masterScore
-        },
         type: item.type || "Property",
-        rentalAngle: item.uplift || item.rentalAngle || "To be assessed",
-        risk: item.risk || "Requires review",
+        sqft: Number(item.sqft || 0),
+        annualRent: Number(item.annualRent || 0),
+        yieldPct: computeYield(item),
+        daysOnMarket: Number(item.dom || 0),
+        priceDrop: Boolean(item.priceDrop),
+        stale,
+        margin: grossMargin,
+        estimatedValueNow: Number(item.estimatedValueNow || 0),
+        estimatedValuePostWorks: Number(item.estimatedValuePostWorks || 0),
+        refurbCost: Number(item.refurbCost || 0),
+        pricePerSqft: Number(item.pricePerSqft || 0),
+        localBenchmarkPSF: Number(item.localBenchmarkPSF || 0),
+        postcode: item.postcode || "",
+        strategyHint: item.strategyHint || "unknown",
+        strategyTags: tags,
+        rentalAngle: item.strategyHint === "hmo"
+          ? "Likely HMO-style income angle"
+          : item.strategyHint === "btl"
+          ? "BTL income case"
+          : item.strategyHint === "flip"
+          ? "Refurb and resale case"
+          : "Requires review",
+        risk: grossMargin <= 0
+          ? "Margin needs validation"
+          : item.refurbCost > 60000
+          ? "Execution / capex control required"
+          : "Requires review",
         reviewStatus: item.reviewStatus || "New",
-        estimatedValue,
-        refurbCost,
-        scores: {
-          master: masterScore,
-          bmv: bmvScore,
-          flip: flipScore,
-          hmo: hmoScore
+        scores,
+        strategies: {
+          best: scores.master,
+          flips: scores.flip,
+          btl: scores.bmv,
+          hmo: scores.hmo,
+          reconfig: scores.flip,
+          "price-drop": item.priceDrop ? Math.max(scores.master, 80) : scores.master,
+          stale: stale ? Math.max(scores.master, 80) : scores.master
         }
       };
     }
 
     function scoreForMode(deal) {
-      if (currentMode === "best") return deal.scores?.master ?? deal.score ?? 0;
-      return deal.strategies?.[currentMode] ?? deal.scores?.master ?? deal.score ?? 0;
+      if (currentMode === "best") return deal.scores?.master ?? 0;
+      return deal.strategies?.[currentMode] ?? deal.scores?.master ?? 0;
     }
 
     function loadShortlist() {
@@ -1281,7 +1316,7 @@
         sortBy === "score" ? "master score"
         : sortBy === "price-asc" ? "price ascending"
         : sortBy === "price-desc" ? "price descending"
-        : sortBy === "profit" ? "margin"
+        : sortBy === "profit" ? "gross margin"
         : "days on market";
 
       renderTopOpps();
@@ -1339,7 +1374,7 @@
             <p>${escapeHtml(deal.summary)}</p>
           </div>
           <div class="line">
-            Score ${scoreForMode(deal)} • Ask ${formatMoney(deal.ask)} • Margin ${formatMoney(deal.margin || 0)}
+            Score ${scoreForMode(deal)} • Ask ${formatMoney(deal.ask)} • Gross Margin ${formatMoney(deal.margin || 0)}
           </div>
         `;
         el.appendChild(card);
@@ -1372,11 +1407,11 @@
 
               <div class="micro-row">
                 <span class="micro">${formatMoney(item.ask)}</span>
-                <span class="micro">Score ${item.scores?.master ?? item.score}</span>
+                <span class="micro">Score ${item.scores?.master ?? 0}</span>
                 <span class="micro">${escapeHtml(item.type)}</span>
                 <span class="micro">${item.daysOnMarket} DOM</span>
                 <span class="micro">${escapeHtml(item.reviewStatus || "New")}</span>
-                ${item.margin ? `<span class="micro">Margin ${formatMoney(item.margin)}</span>` : ""}
+                ${item.margin ? `<span class="micro">Gross Margin ${formatMoney(item.margin)}</span>` : ""}
               </div>
 
               <div class="short-address">${escapeHtml(item.fullSummary)}</div>
@@ -1424,7 +1459,7 @@
 
       filteredDeals.forEach(deal => {
         const saved = isShortlisted(deal.id);
-        const masterScore = deal.scores?.master ?? deal.score ?? 0;
+        const masterScore = deal.scores?.master ?? 0;
         const bmvScore = deal.scores?.bmv ?? "-";
         const flipScore = deal.scores?.flip ?? "-";
         const hmoScore = deal.scores?.hmo ?? "-";
@@ -1450,15 +1485,15 @@
             <div class="deal-topline">${escapeHtml(deal.source)} • ${escapeHtml(modeLabel(currentMode))}</div>
             <h3>${escapeHtml(deal.title)}</h3>
             <div class="deal-summary">${escapeHtml(deal.summary)}</div>
-            <div class="deal-line"><strong>Score ${masterScore}</strong> • Ask ${formatMoney(deal.ask)} • Margin ${formatMoney(deal.margin || 0)}</div>
+            <div class="deal-line"><strong>Score ${masterScore}</strong> • Ask ${formatMoney(deal.ask)} • Gross Margin ${formatMoney(deal.margin || 0)}</div>
 
             <div class="deal-meta-grid">
               <div class="meta-box">
-                <div class="mk">Address</div>
+                <div class="mk">Location</div>
                 <div class="mv">${escapeHtml(deal.address)}</div>
               </div>
               <div class="meta-box">
-                <div class="mk">Strategy tags</div>
+                <div class="mk">Strategy</div>
                 <div class="mv">${escapeHtml((deal.strategyTags || []).join(" • "))}</div>
               </div>
               <div class="meta-box">
@@ -1466,8 +1501,10 @@
                 <div class="mv">BMV ${bmvScore} • Flip ${flipScore} • HMO ${hmoScore}</div>
               </div>
               <div class="meta-box">
-                <div class="mk">Risk focus</div>
-                <div class="mv">${escapeHtml(deal.risk)}</div>
+                <div class="mk">Economics</div>
+                <div class="mv">
+                  ${deal.sqft ? `${formatNumber(deal.sqft)} sqft • ` : ""}${deal.pricePerSqft ? `${formatMoney(deal.pricePerSqft)} psf • ` : ""}${deal.yieldPct ? `${deal.yieldPct.toFixed(1)}% yield` : "Review"}
+                </div>
               </div>
             </div>
 
@@ -1511,12 +1548,11 @@
 
         const data = await res.json();
         const rawItems = Array.isArray(data) ? data : (data.results || data.items || []);
-        allDeals = rawItems.map(normalizeApiDeal);
-
+        allDeals = rawItems.map((item, idx) => normalizeApiDeal(item, idx));
         applyFilters();
       } catch (err) {
         console.error("Scan failed:", err);
-        allDeals = demoDeals().map(d => ({ ...d }));
+        allDeals = demoDeals().map((d, idx) => normalizeApiDeal(d, idx));
         applyFilters();
       }
     }
@@ -1558,12 +1594,11 @@
 
         const data = await res.json();
         const rawItems = Array.isArray(data) ? data : (data.results || data.items || []);
-        allDeals = rawItems.map(normalizeApiDeal);
-
+        allDeals = rawItems.map((item, idx) => normalizeApiDeal(item, idx));
         applyFilters();
       } catch (err) {
         console.error("Initial deals load failed:", err);
-        allDeals = demoDeals();
+        allDeals = demoDeals().map((d, idx) => normalizeApiDeal(d, idx));
         applyFilters();
       }
     }
