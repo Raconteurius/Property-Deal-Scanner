@@ -23,6 +23,7 @@
     }
 
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -188,7 +189,13 @@
     }
 
     button:hover { transform: translateY(-1px); }
-    .btn-primary { background: linear-gradient(180deg, #78afff, #4c8efa); color: #081226; border: none; }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #78afff, #4c8efa);
+      color: #081226;
+      border: none;
+    }
+
     .btn-secondary { background: #121d40; }
     .full { grid-column: 1 / -1; }
     .actions { display: flex; gap: 10px; }
@@ -246,7 +253,10 @@
       margin-bottom: 8px;
     }
 
-    .top-card .meta { color: var(--muted); font-size: 13px; }
+    .top-card .meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
 
     .cards {
       display: grid;
@@ -371,8 +381,18 @@
       text-align: center;
     }
 
-    .sbox .k { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
-    .sbox .v { font-size: 18px; font-weight: 850; margin-top: 4px; }
+    .sbox .k {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .sbox .v {
+      font-size: 18px;
+      font-weight: 850;
+      margin-top: 4px;
+    }
 
     .rationale, .risk {
       padding: 13px 14px;
@@ -410,8 +430,17 @@
       text-transform: uppercase;
     }
 
-    .flag.good { background: rgba(48,197,109,.13); color: #8ef0b1; border: 1px solid rgba(48,197,109,.2); }
-    .flag.warn { background: rgba(239,179,52,.13); color: #ffd587; border: 1px solid rgba(239,179,52,.2); }
+    .flag.good {
+      background: rgba(48,197,109,.13);
+      color: #8ef0b1;
+      border: 1px solid rgba(48,197,109,.2);
+    }
+
+    .flag.warn {
+      background: rgba(239,179,52,.13);
+      color: #ffd587;
+      border: 1px solid rgba(239,179,52,.2);
+    }
 
     .note {
       margin-top: 12px;
@@ -441,10 +470,10 @@
         <h1>Property Deal Scanner for flips, buy-to-lets, HMOs and reconfiguration plays</h1>
         <p class="sub">A Bristol-focused residential acquisition tool built to surface the best opportunities fast. It screens listings for undervaluation, rental strength, refurbishment upside, HMO potential, title-split or reconfiguration optionality, and stale or reduced stock likely to deserve attention.</p>
         <div class="stats">
-          <div class="stat"><div class="k">Listings scanned</div><div class="v" id="statScanned">14</div></div>
-          <div class="stat"><div class="k">Average master score</div><div class="v" id="statAvg">81</div></div>
-          <div class="stat"><div class="k">Top margin</div><div class="v" id="statMargin">22%</div></div>
-          <div class="stat"><div class="k">Price drop flags</div><div class="v" id="statDrops">5</div></div>
+          <div class="stat"><div class="k">Listings scanned</div><div class="v" id="statScanned">0</div></div>
+          <div class="stat"><div class="k">Average master score</div><div class="v" id="statAvg">0</div></div>
+          <div class="stat"><div class="k">Top margin</div><div class="v" id="statMargin">0%</div></div>
+          <div class="stat"><div class="k">Price drop flags</div><div class="v" id="statDrops">0</div></div>
           <div class="stat"><div class="k">Current mode</div><div class="v" id="statMode">Best Deals</div></div>
         </div>
       </div>
@@ -456,12 +485,12 @@
             <li>Multi-strategy scoring rather than one generic score</li>
             <li>Deal cards with purchase, refurb, GDV, rent, yield, profit and margin</li>
             <li>Flags for stale listings and price reductions</li>
-            <li>Ready for a later <strong>/api/deals</strong> live ingestion path</li>
+            <li>Connected to live API endpoints</li>
           </ul>
         </div>
         <div class="panel mini-box">
           <h3>How live scanning should work</h3>
-          <p>Keep the front end static and fast. Later, pipe cleaned listing data into the page from a backend endpoint. Correct build: source connectors → normaliser → strategy scoring → ranked JSON → this dashboard.</p>
+          <p>The front end stays simple and fast. Deals load from <strong>/api/deals</strong>, and the scan button pulls fresh results from <strong>/api/scan</strong>.</p>
         </div>
       </div>
     </section>
@@ -469,7 +498,7 @@
     <section class="panel filters">
       <div class="row-head">
         <h2>Bristol deal filters</h2>
-        <div class="small"><span id="resultCount">14 results</span> • <span id="sortLabel">sorted by master score</span></div>
+        <div class="small"><span id="resultCount">0 results</span> • <span id="sortLabel">sorted by master score</span></div>
       </div>
 
       <div class="grid">
@@ -529,7 +558,8 @@
           <button class="btn-secondary" id="scanBtn">Simulate fresh scan</button>
         </div>
       </div>
-      <div class="note">This version uses seeded Bristol-area listings but now mirrors the structure of a real acquisition platform. Later, replace the local dataset with live JSON from a backend endpoint.</div>
+
+      <div class="note">This interface now loads from the API layer. The scan button swaps the dashboard to the live scan endpoint output.</div>
     </section>
 
     <section class="tabs" id="tabs">
@@ -560,36 +590,41 @@
   </div>
 
   <script>
-    const seedListings = [
-      { id: 1, title: 'Detached refurbishment opportunity', area: 'Bristol', microLocation: 'Brislington', postcode: 'BS4', askingPrice: 435000, estimatedValueNow: 495000, estimatedValuePostWorks: 585000, localBenchmarkPsf: 404, pricePerSqft: 323, beds: 4, sqft: 1345, refurbCost: 55000, annualRent: 28800, strategyHint: 'flip', dom: 42, priceDrop: false, reducedFrom: null },
-      { id: 2, title: 'Large terrace with HMO angle', area: 'Bristol', microLocation: 'Easton', postcode: 'BS5', askingPrice: 410000, estimatedValueNow: 455000, estimatedValuePostWorks: 560000, localBenchmarkPsf: 388, pricePerSqft: 295, beds: 5, sqft: 1390, refurbCost: 70000, annualRent: 40200, strategyHint: 'hmo', dom: 76, priceDrop: true, reducedFrom: 435000 },
-      { id: 3, title: 'Family house below Bath fringe comps', area: 'Bath', microLocation: 'Bath outskirts', postcode: 'BA1', askingPrice: 595000, estimatedValueNow: 645000, estimatedValuePostWorks: 730000, localBenchmarkPsf: 486, pricePerSqft: 401, beds: 4, sqft: 1485, refurbCost: 65000, annualRent: 32400, strategyHint: 'flip', dom: 53, priceDrop: false, reducedFrom: null },
-      { id: 4, title: '3-bed with strong BTL floor', area: 'Keynsham', microLocation: 'Keynsham', postcode: 'BS31', askingPrice: 325000, estimatedValueNow: 355000, estimatedValuePostWorks: 395000, localBenchmarkPsf: 356, pricePerSqft: 309, beds: 3, sqft: 1052, refurbCost: 28000, annualRent: 19200, strategyHint: 'btl', dom: 31, priceDrop: false, reducedFrom: null },
-      { id: 5, title: 'Portishead value-add semi', area: 'Portishead', microLocation: 'Portishead', postcode: 'BS20', askingPrice: 350000, estimatedValueNow: 390000, estimatedValuePostWorks: 455000, localBenchmarkPsf: 372, pricePerSqft: 298, beds: 3, sqft: 1175, refurbCost: 40000, annualRent: 20400, strategyHint: 'flip', dom: 94, priceDrop: true, reducedFrom: 365000 },
-      { id: 6, title: 'Weston split-angle corner asset', area: 'Weston', microLocation: 'Weston-super-Mare', postcode: 'BS23', askingPrice: 365000, estimatedValueNow: 405000, estimatedValuePostWorks: 515000, localBenchmarkPsf: 301, pricePerSqft: 242, beds: 5, sqft: 1510, refurbCost: 85000, annualRent: 31800, strategyHint: 'reconfig', dom: 127, priceDrop: true, reducedFrom: 389000 },
-      { id: 7, title: 'South Bristol probate-style house', area: 'Bristol', microLocation: 'Knowle', postcode: 'BS4', askingPrice: 375000, estimatedValueNow: 425000, estimatedValuePostWorks: 500000, localBenchmarkPsf: 397, pricePerSqft: 285, beds: 3, sqft: 1315, refurbCost: 50000, annualRent: 22800, strategyHint: 'flip', dom: 66, priceDrop: false, reducedFrom: null },
-      { id: 8, title: 'Inner Bristol rental-led terrace', area: 'Bristol', microLocation: 'Totterdown', postcode: 'BS3', askingPrice: 465000, estimatedValueNow: 490000, estimatedValuePostWorks: 565000, localBenchmarkPsf: 437, pricePerSqft: 362, beds: 4, sqft: 1283, refurbCost: 48000, annualRent: 30000, strategyHint: 'btl', dom: 21, priceDrop: false, reducedFrom: null },
-      { id: 9, title: 'Redfield HMO conversion candidate', area: 'Bristol', microLocation: 'Redfield', postcode: 'BS5', askingPrice: 395000, estimatedValueNow: 448000, estimatedValuePostWorks: 552000, localBenchmarkPsf: 381, pricePerSqft: 279, beds: 5, sqft: 1416, refurbCost: 72000, annualRent: 41400, strategyHint: 'hmo', dom: 88, priceDrop: true, reducedFrom: 420000 },
-      { id: 10, title: 'Bedminster light refurb house', area: 'Bristol', microLocation: 'Bedminster', postcode: 'BS3', askingPrice: 420000, estimatedValueNow: 455000, estimatedValuePostWorks: 520000, localBenchmarkPsf: 422, pricePerSqft: 337, beds: 3, sqft: 1245, refurbCost: 35000, annualRent: 23400, strategyHint: 'flip', dom: 39, priceDrop: false, reducedFrom: null },
-      { id: 11, title: 'Bath rental cottage under benchmark', area: 'Bath', microLocation: 'Oldfield Park', postcode: 'BA2', askingPrice: 445000, estimatedValueNow: 485000, estimatedValuePostWorks: 545000, localBenchmarkPsf: 471, pricePerSqft: 389, beds: 3, sqft: 1145, refurbCost: 32000, annualRent: 24600, strategyHint: 'btl', dom: 58, priceDrop: false, reducedFrom: null },
-      { id: 12, title: 'Kingswood reconfiguration play', area: 'Bristol', microLocation: 'Kingswood', postcode: 'BS15', askingPrice: 345000, estimatedValueNow: 392000, estimatedValuePostWorks: 475000, localBenchmarkPsf: 349, pricePerSqft: 274, beds: 4, sqft: 1260, refurbCost: 58000, annualRent: 25200, strategyHint: 'reconfig', dom: 109, priceDrop: true, reducedFrom: 359000 },
-      { id: 13, title: 'Horfield multi-let style house', area: 'Bristol', microLocation: 'Horfield', postcode: 'BS7', askingPrice: 515000, estimatedValueNow: 545000, estimatedValuePostWorks: 650000, localBenchmarkPsf: 431, pricePerSqft: 356, beds: 6, sqft: 1448, refurbCost: 68000, annualRent: 46800, strategyHint: 'hmo', dom: 47, priceDrop: false, reducedFrom: null },
-      { id: 14, title: 'Fishponds deep-value family refurb', area: 'Bristol', microLocation: 'Fishponds', postcode: 'BS16', askingPrice: 360000, estimatedValueNow: 405000, estimatedValuePostWorks: 490000, localBenchmarkPsf: 366, pricePerSqft: 282, beds: 3, sqft: 1276, refurbCost: 50000, annualRent: 22800, strategyHint: 'flip', dom: 133, priceDrop: true, reducedFrom: 385000 }
-    ];
-
-let listings = []
-
-async function loadDeals() {
-  const res = await fetch("/data/deals.json")
-  listings = await res.json()
-  render()
-}
-
-loadDeals()
+    let listings = [];
     let activeMode = 'master';
 
+    async function loadDeals() {
+      try {
+        const res = await fetch("/api/deals");
+        if (!res.ok) throw new Error("API load failed");
+        listings = await res.json();
+      } catch (err) {
+        const fallback = await fetch("/data/deals.json");
+        listings = await fallback.json();
+      }
+      render();
+    }
+
+    async function runScan() {
+      try {
+        const res = await fetch("/api/scan");
+        if (!res.ok) throw new Error("Scan failed");
+        const data = await res.json();
+        listings = Array.isArray(data.deals) ? data.deals : [];
+        activeMode = 'master';
+        updateTabs();
+        render();
+      } catch (err) {
+        alert("Scan failed.");
+      }
+    }
+
     function money(v) {
-      return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(v);
+      return new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: 'GBP',
+        maximumFractionDigits: 0
+      }).format(v);
     }
 
     function pct(v) {
@@ -620,7 +655,7 @@ loadDeals()
       const reconfigScore = clamp(discountNow * 1.8 + psfEdge * 1.9 + margin * 1.7 + reconfigFit + staleBoost + dropBoost - (refurbIntensity > 22 ? 8 : 0));
       const masterScore = clamp((flipScore * 0.28) + (btlScore * 0.22) + (hmoScore * 0.28) + (reconfigScore * 0.22));
 
-      return { discountNow, psfEdge, yieldPct, totalCost, grossProfit, margin, staleBoost, dropBoost, flipScore, btlScore, hmoScore, reconfigScore, masterScore };
+      return { discountNow, psfEdge, yieldPct, totalCost, grossProfit, margin, flipScore, btlScore, hmoScore, reconfigScore, masterScore };
     }
 
     function scoreTone(score) {
@@ -655,7 +690,7 @@ loadDeals()
         ['BTL', m.btlScore],
         ['HMO', m.hmoScore],
         ['reconfiguration', m.reconfigScore]
-      ].sort((a,b) => b[1]-a[1])[0][0];
+      ].sort((a, b) => b[1] - a[1])[0][0];
 
       return `${item.microLocation} screens well because the asking price is ${pct(m.discountNow)} below the current value estimate and ${pct(m.psfEdge)} below the local £/sqft benchmark. After a ${money(item.refurbCost)} works budget, total cost is about ${money(m.totalCost)} against an estimated post-works value of ${money(item.estimatedValuePostWorks)}, implying gross profit of ${money(m.grossProfit)} and margin of ${pct(m.margin)}. Rental support is ${m.yieldPct.toFixed(1)}% gross, and the model currently sees the strongest fit in ${primary}.`;
     }
@@ -668,7 +703,10 @@ loadDeals()
       if (item.dom < 30 && !item.priceDrop) out.push('vendor pressure may still be limited');
       if (activeMode === 'hmo' && item.beds < 5) out.push('HMO upside may be layout-dependent');
       if (activeMode === 'reconfig' && item.sqft < 1250) out.push('reconfiguration angle may be constrained by size');
-      return out.length ? `Key risks: ${out.join('; ')}.` : 'Key risks: no major screen-level concern, but valuation, layout and works assumptions still need validating.';
+
+      return out.length
+        ? `Key risks: ${out.join('; ')}.`
+        : 'Key risks: no major screen-level concern, but valuation, layout and works assumptions still need validating.';
     }
 
     function flags(item) {
@@ -687,7 +725,7 @@ loadDeals()
       if (m.btlScore >= 75) tags.push('BTL');
       if (m.hmoScore >= 75) tags.push('HMO');
       if (m.reconfigScore >= 75) tags.push('RECONFIG');
-      if (!tags.length) tags.push(item.strategyHint.toUpperCase());
+      if (!tags.length && item.strategyHint) tags.push(item.strategyHint.toUpperCase());
       return tags.map(t => `<span class="chip">${t}</span>`).join('');
     }
 
@@ -695,6 +733,7 @@ loadDeals()
       const m = calc(item);
       const s = activeMode === 'drops' || activeMode === 'stale' ? m.masterScore : modeScore(m);
       const tone = scoreTone(s);
+
       return `
         <article class="panel deal">
           <div class="deal-top">
@@ -709,6 +748,7 @@ loadDeals()
           </div>
 
           <div class="flag-row">${flags(item)}</div>
+
           <div class="chips">
             ${strategyChips(item, m)}
             <span class="chip">Ask ${money(item.askingPrice)}</span>
@@ -783,7 +823,13 @@ loadDeals()
       const top = result.slice(0, 5);
       document.getElementById('topStrip').innerHTML = top.map((item, i) => {
         const m = calc(item);
-        const show = activeMode === 'flip' ? m.flipScore : activeMode === 'btl' ? m.btlScore : activeMode === 'hmo' ? m.hmoScore : activeMode === 'reconfig' ? m.reconfigScore : m.masterScore;
+        const show =
+          activeMode === 'flip' ? m.flipScore :
+          activeMode === 'btl' ? m.btlScore :
+          activeMode === 'hmo' ? m.hmoScore :
+          activeMode === 'reconfig' ? m.reconfigScore :
+          m.masterScore;
+
         return `
           <div class="top-card">
             <div class="rank">#${i + 1} ${modeTitle()}</div>
@@ -800,6 +846,7 @@ loadDeals()
       const avg = ms.length ? Math.round(ms.reduce((s, x) => s + x.masterScore, 0) / ms.length) : 0;
       const topMargin = ms.length ? Math.max(...ms.map(x => x.margin)) : 0;
       const drops = listings.filter(x => x.priceDrop).length;
+
       document.getElementById('statScanned').textContent = listings.length;
       document.getElementById('statAvg').textContent = avg;
       document.getElementById('statMargin').textContent = pct(topMargin);
@@ -811,7 +858,9 @@ loadDeals()
 
     function render() {
       const result = filtered();
-      document.getElementById('cards').innerHTML = result.map(card).join('') || `<div class="panel deal"><h3>No deals match current filters</h3><div class="deal-sub">Widen the filters or switch mode.</div></div>`;
+      document.getElementById('cards').innerHTML =
+        result.map(card).join('') ||
+        `<div class="panel deal"><h3>No deals match current filters</h3><div class="deal-sub">Widen the filters or switch mode.</div></div>`;
       renderTop(result);
       renderStats(result);
     }
@@ -829,37 +878,14 @@ loadDeals()
     }
 
     function updateTabs() {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.mode === activeMode));
-    }
-
-    function simulateScan() {
-      const fresh = {
-        id: listings.length + 1,
-        title: 'Fresh scan: St George price-drop mismatch',
-        area: 'Bristol',
-        microLocation: 'St George',
-        postcode: 'BS5',
-        askingPrice: 385000,
-        estimatedValueNow: 438000,
-        estimatedValuePostWorks: 545000,
-        localBenchmarkPsf: 376,
-        pricePerSqft: 268,
-        beds: 4,
-        sqft: 1438,
-        refurbCost: 62000,
-        annualRent: 38400,
-        strategyHint: 'hmo',
-        dom: 121,
-        priceDrop: true,
-        reducedFrom: 410000
-      };
-      listings = [fresh, ...listings];
-      render();
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.mode === activeMode);
+      });
     }
 
     document.getElementById('applyBtn').addEventListener('click', render);
     document.getElementById('resetBtn').addEventListener('click', resetFilters);
-    document.getElementById('scanBtn').addEventListener('click', simulateScan);
+    document.getElementById('scanBtn').addEventListener('click', runScan);
     document.getElementById('sortBy').addEventListener('change', render);
 
     document.querySelectorAll('.tab').forEach(tab => {
@@ -870,7 +896,7 @@ loadDeals()
       });
     });
 
-    render();
+    loadDeals();
   </script>
 </body>
 </html>
