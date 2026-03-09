@@ -1,0 +1,53 @@
+[
+  {
+    "title": "Brislington refurbishment opportunity",
+    "area": "Bristol",
+    "microLocation": "Brislington",
+    "postcode": "BS4",
+    "askingPrice": 435000,
+    "estimatedValueNow": 495000,
+    "estimatedValuePostWorks": 585000,
+    "localBenchmarkPsf": 404,
+    "pricePerSqft": 323,
+    "beds": 4,
+    "sqft": 1345,
+    "refurbCost": 55000,
+    "annualRent": 28800,
+    "dom": 42,
+    "priceDrop": false
+  },
+  {
+    "title": "Large terrace with HMO angle",
+    "area": "Bristol",
+    "microLocation": "Easton",
+    "postcode": "BS5",
+    "askingPrice": 410000,
+    "estimatedValueNow": 455000,
+    "estimatedValuePostWorks": 560000,
+    "localBenchmarkPsf": 388,
+    "pricePerSqft": 295,
+    "beds": 5,
+    "sqft": 1390,
+    "refurbCost": 70000,
+    "annualRent": 40200,
+    "dom": 76,
+    "priceDrop": true
+  },
+  {
+    "title": "Portishead value-add semi",
+    "area": "Portishead",
+    "microLocation": "Portishead",
+    "postcode": "BS20",
+    "askingPrice": 350000,
+    "estimatedValueNow": 390000,
+    "estimatedValuePostWorks": 455000,
+    "localBenchmarkPsf": 372,
+    "pricePerSqft": 298,
+    "beds": 3,
+    "sqft": 1175,
+    "refurbCost": 40000,
+    "annualRent": 20400,
+    "dom": 94,
+    "priceDrop": true
+  }
+]
