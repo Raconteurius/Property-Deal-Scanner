@@ -3,20 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Property Deal Scanner | Greater Bristol v3</title>
+  <title>Property Deal Scanner | Greater Bristol v4</title>
   <style>
     :root {
       --bg: #07101d;
-      --bg2: #0b1430;
       --panel: #111a39;
-      --panel2: #17244d;
       --line: #293867;
       --text: #eef3ff;
       --muted: #a9b6d7;
-      --accent: #72a9ff;
-      --good: #30c56d;
-      --warn: #efb334;
-      --bad: #f06262;
       --chip: #1d2c5c;
       --radius: 20px;
       --shadow: 0 16px 40px rgba(0,0,0,.28);
@@ -110,9 +104,7 @@
       letter-spacing: -.03em;
     }
 
-    .mini-box {
-      padding: 18px;
-    }
+    .mini-box { padding: 18px; }
 
     .mini-box h3 {
       margin: 0 0 10px;
@@ -208,7 +200,9 @@
     }
 
     .tab {
-      padding: 11px 14px;
+      display: inline-flex;
+      width: auto;
+      padding: 11px 16px;
       border-radius: 999px;
       border: 1px solid var(--line);
       background: #111a39;
@@ -269,11 +263,28 @@
       position: relative;
     }
 
+    .deal-image-wrap {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.03);
+    }
+
+    .deal-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .deal-top {
       display: flex;
       justify-content: space-between;
       gap: 12px;
       align-items: flex-start;
+      margin-top: 14px;
     }
 
     .deal h3 {
@@ -442,6 +453,21 @@
       border: 1px solid rgba(239,179,52,.2);
     }
 
+    .deal-actions {
+      margin-top: 14px;
+    }
+
+    .deal-link {
+      display: inline-block;
+      padding: 11px 14px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #78afff, #4c8efa);
+      color: #081226;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
     .note {
       margin-top: 12px;
       color: var(--muted);
@@ -466,7 +492,7 @@
   <div class="wrap">
     <section class="hero">
       <div class="panel hero-main">
-        <div class="eyebrow">Greater Bristol Acquisition Engine v3</div>
+        <div class="eyebrow">Greater Bristol Acquisition Engine v4</div>
         <h1>Property Deal Scanner for flips, buy-to-lets, HMOs and reconfiguration plays</h1>
         <p class="sub">A Bristol-focused residential acquisition tool built to surface the best opportunities fast. It screens listings for undervaluation, rental strength, refurbishment upside, HMO potential, title-split or reconfiguration optionality, and stale or reduced stock likely to deserve attention.</p>
         <div class="stats">
@@ -483,7 +509,7 @@
           <h3>Investor focus</h3>
           <ul>
             <li>Multi-strategy scoring rather than one generic score</li>
-            <li>Deal cards with purchase, refurb, GDV, rent, yield, profit and margin</li>
+            <li>Deal cards now include images and listing links</li>
             <li>Flags for stale listings and price reductions</li>
             <li>Connected to live API endpoints</li>
           </ul>
@@ -559,7 +585,7 @@
         </div>
       </div>
 
-      <div class="note">This interface now loads from the API layer. The scan button swaps the dashboard to the live scan endpoint output.</div>
+      <div class="note">This interface loads from the API layer. Each deal card can now show a property image and a listing button.</div>
     </section>
 
     <section class="tabs" id="tabs">
@@ -583,7 +609,7 @@
     <section style="margin-top: 18px;">
       <div class="row-head">
         <h2>Ranked deal cards</h2>
-        <div class="small">Each card shows the commercial case and the main risks.</div>
+        <div class="small">Each card shows the commercial case, the image, and the listing link.</div>
       </div>
       <div class="cards" id="cards"></div>
     </section>
@@ -733,9 +759,16 @@
       const m = calc(item);
       const s = activeMode === 'drops' || activeMode === 'stale' ? m.masterScore : modeScore(m);
       const tone = scoreTone(s);
+      const imageUrl = item.image || "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80";
+      const listingUrl = item.link || "#";
+      const sourceLabel = item.source || "Listing";
 
       return `
         <article class="panel deal">
+          <div class="deal-image-wrap">
+            <img class="deal-image" src="${imageUrl}" alt="${item.title}">
+          </div>
+
           <div class="deal-top">
             <div>
               <h3>${item.title}</h3>
@@ -754,6 +787,7 @@
             <span class="chip">Ask ${money(item.askingPrice)}</span>
             <span class="chip">Rent ${money(Math.round(item.annualRent / 12))}/mo</span>
             <span class="chip">Refurb ${money(item.refurbCost)}</span>
+            <span class="chip">${sourceLabel}</span>
           </div>
 
           <div class="economics">
@@ -776,6 +810,10 @@
 
           <div class="rationale"><strong>Investment rationale:</strong> ${rationale(item, m)}</div>
           <div class="risk">${risks(item, m)}</div>
+
+          <div class="deal-actions">
+            <a class="deal-link" href="${listingUrl}" target="_blank" rel="noopener noreferrer">View listing</a>
+          </div>
         </article>
       `;
     }
