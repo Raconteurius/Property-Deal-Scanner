@@ -1,23 +1,18 @@
-const fs = require("fs")
-const path = require("path")
+const fs = require("fs");
+const path = require("path");
 
-module.exports = (req,res) => {
+module.exports = (req, res) => {
+  try {
+    const filePath = path.join(process.cwd(), "data", "deals.json");
+    const raw = fs.readFileSync(filePath, "utf8");
+    const listings = JSON.parse(raw);
 
-  const filePath = path.join(process.cwd(),"data","otm-listings.json")
-
-  try{
-
-    const data = fs.readFileSync(filePath,"utf8")
-    const json = JSON.parse(data)
-
-    res.status(200).json(json)
-
-  } catch(err){
-
+    res.status(200).json({
+      results: listings
+    });
+  } catch (err) {
     res.status(500).json({
-      error:"Failed to load listings"
-    })
-
+      error: "Failed to load deals dataset"
+    });
   }
-
-}
+};
