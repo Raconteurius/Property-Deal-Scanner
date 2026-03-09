@@ -1,8 +1,24 @@
-export default function handler(req, res) {
+module.exports = (req, res) => {
   res.status(200).json({
     results: [
       {
-        id: "scan_1",
+        id: "deal_1",
+        title: "Easton",
+        address: "Easton, Bristol",
+        price: 410000,
+        score: 100,
+        beds: 4,
+        condition: "needs-works",
+        type: "Terrace",
+        uplift: "HMO angle",
+        source: "Demo",
+        link: "https://www.rightmove.co.uk/",
+        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
+        summary: "Large terrace with HMO angle",
+        tags: ["HMO", "Refurb"]
+      },
+      {
+        id: "deal_2",
         title: "Brislington",
         address: "Brislington, Bristol",
         price: 435000,
@@ -11,12 +27,12 @@ export default function handler(req, res) {
         condition: "light-refurb",
         type: "Semi-detached",
         uplift: "Refurb opportunity",
-        source: "Demo Scan",
+        source: "Demo",
         link: "https://www.zoopla.co.uk/",
-        image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
-        summary: "Refurbishment opportunity surfaced by scan.",
+        image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
+        summary: "Brislington refurbishment opportunity",
         tags: ["Flip", "Works"]
       }
     ]
   });
-}
+};
