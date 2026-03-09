@@ -1,111 +1,954 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Property Deal Scanner</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Deal Scanner | Greater Bristol</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121933;
+      --panel-2: #172042;
+      --text: #eef2ff;
+      --muted: #a9b4d0;
+      --line: #26325f;
+      --accent: #6ea8fe;
+      --good: #35c46b;
+      --warn: #f0b429;
+      --bad: #ef5d5d;
+      --chip: #1e2a55;
+      --shadow: 0 18px 40px rgba(0,0,0,.28);
+      --radius: 20px;
+    }
 
-<style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #08101c 0%, #0b1020 100%);
+      color: var(--text);
+    }
 
-body{
-font-family:Arial;
-background:#111;
-color:white;
-padding:40px;
-}
+    .container {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 28px;
+    }
 
-input{
-padding:10px;
-margin:5px;
-}
+    .hero {
+      display: grid;
+      grid-template-columns: 1.35fr .95fr;
+      gap: 22px;
+      margin-bottom: 22px;
+    }
 
-button{
-padding:10px 20px;
-margin:10px;
-background:#00ff9c;
-border:none;
-cursor:pointer;
-}
+    .panel {
+      background: linear-gradient(180deg, rgba(23,32,66,.92), rgba(16,22,43,.94));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
 
-.card{
-background:#1c1c1c;
-padding:20px;
-border-radius:10px;
-margin-top:20px;
-}
+    .hero-main {
+      padding: 28px;
+    }
 
-.score{
-font-size:28px;
-color:#00ff9c;
-}
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(110,168,254,.12);
+      color: #cfe0ff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      border: 1px solid rgba(110,168,254,.22);
+    }
 
-</style>
+    h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: .98;
+      margin: 16px 0 14px;
+      letter-spacing: -.03em;
+      max-width: 820px;
+    }
 
+    .sub {
+      color: var(--muted);
+      max-width: 820px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .hero-stats {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .stat-value {
+      margin-top: 6px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .hero-side {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .filters {
+      padding: 20px;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    label {
+      font-size: 12px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #0e1530;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #6ea8fe, #4988f6);
+      color: #051128;
+      border: none;
+    }
+
+    .btn-secondary {
+      background: #121a37;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .cards-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin: 8px 0 16px;
+    }
+
+    .cards-header h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -.02em;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .deal-card {
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .deal-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin: 0 0 6px;
+    }
+
+    .deal-sub {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .score {
+      min-width: 84px;
+      text-align: center;
+      padding: 12px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(53,196,107,.16), rgba(53,196,107,.08));
+      border: 1px solid rgba(53,196,107,.24);
+    }
+
+    .score.bad { background: linear-gradient(180deg, rgba(239,93,93,.16), rgba(239,93,93,.08)); border-color: rgba(239,93,93,.25); }
+    .score.warn { background: linear-gradient(180deg, rgba(240,180,41,.16), rgba(240,180,41,.08)); border-color: rgba(240,180,41,.25); }
+
+    .score .n {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -.03em;
+    }
+
+    .score .t {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .chip {
+      background: var(--chip);
+      border: 1px solid rgba(255,255,255,.06);
+      color: #d8e2ff;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 16px;
+    }
+
+    .metric {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.05);
+    }
+
+    .metric .k {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .metric .v {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .rationale {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(110,168,254,.08);
+      border: 1px solid rgba(110,168,254,.16);
+      line-height: 1.6;
+      color: #dde8ff;
+    }
+
+    .risk {
+      margin-top: 12px;
+      color: #ffcccc;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .system-box {
+      padding: 18px;
+    }
+
+    .system-box h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .system-box p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .system-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: #dbe4fb;
+    }
+
+    .system-list li {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1180px) {
+      .hero, .cards-grid, .filters-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 820px) {
+      .hero, .cards-grid, .filters-grid { grid-template-columns: 1fr; }
+      .hero-stats, .metrics { grid-template-columns: 1fr 1fr; }
+      .container { padding: 16px; }
+      h1 { font-size: 36px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="eyebrow">Greater Bristol Acquisition Engine</div>
+        <h1>Property Deal Scanner for Bristol‑area off‑market style opportunities</h1>
+        <p class="sub">
+          A focused acquisition tool for sourcing, scoring and presenting residential deals across Greater Bristol.
+          It prioritises undervaluation, refurb potential, yield support, and resale headroom, then turns the result into clear deal cards a buyer can review quickly.
+        </p>
 
-<h1>Property Deal Scanner</h1>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat">
+            <div class="stat-label">Listings scanned</div>
+            <div class="stat-value" id="listingsScanned">12</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Average score</div>
+            <div class="stat-value" id="avgScore">74</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Top deal margin</div>
+            <div class="stat-value" id="topMargin">19%</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Target area</div>
+            <div class="stat-value">Bristol</div>
+          </div>
+        </div>
+      </div>
 
-<h3>Add Property</h3>
+      <div class="panel hero-side">
+        <div class="system-box">
+          <h3>What this version does</h3>
+          <p>
+            This is the Bristol-focused front end. It scores listings, ranks them, explains why they matter, and is structured so a future scraper or feed can drop straight into the data model.
+          </p>
+          <ul class="system-list">
+            <li>Bristol-area filters and ranked acquisition cards</li>
+            <li>Investment rationale written for a decision-maker</li>
+            <li>Scoring based on discount, £/sqft, refurb upside and yield</li>
+            <li>Ready for automatic listing ingestion via a backend endpoint</li>
+          </ul>
+        </div>
 
-<input id="address" placeholder="Address">
-<input id="area" placeholder="Area">
-<input id="price" placeholder="Price">
-<input id="sqft" placeholder="Sqft">
+        <div class="system-box">
+          <h3>Automatic scanning path</h3>
+          <p>
+            Client-side scraping is unreliable and often blocked. The correct build is: source connector → normaliser → score engine → ranked API → this front end. This page is already wired for that shape.
+          </p>
+        </div>
+      </div>
+    </section>
 
-<br>
+    <section class="panel filters stack">
+      <div class="cards-header">
+        <h2>Bristol deal filters</h2>
+        <div class="toolbar small">
+          <span id="resultCount">12 results</span>
+          <span>•</span>
+          <span id="sortStatus">Sorted by score</span>
+        </div>
+      </div>
 
-<button onclick="scoreDeal()">Score Deal</button>
+      <div class="filters-grid">
+        <div>
+          <label for="locationFilter">Location</label>
+          <select id="locationFilter">
+            <option value="all">All Greater Bristol</option>
+            <option value="bristol">Bristol</option>
+            <option value="bath">Bath</option>
+            <option value="keynsham">Keynsham</option>
+            <option value="portishead">Portishead</option>
+            <option value="weston">Weston-super-Mare</option>
+          </select>
+        </div>
+        <div>
+          <label for="maxPrice">Max price (£)</label>
+          <input id="maxPrice" type="number" value="650000" />
+        </div>
+        <div>
+          <label for="minBeds">Min beds</label>
+          <select id="minBeds">
+            <option value="0">Any</option>
+            <option value="2">2+</option>
+            <option value="3" selected>3+</option>
+            <option value="4">4+</option>
+            <option value="5">5+</option>
+          </select>
+        </div>
+        <div>
+          <label for="strategyFilter">Strategy</label>
+          <select id="strategyFilter">
+            <option value="all">Any</option>
+            <option value="flip">Flip</option>
+            <option value="btl">Buy-to-let</option>
+            <option value="hmo">HMO</option>
+            <option value="split">Title split / reconfiguration</option>
+          </select>
+        </div>
+        <div>
+          <label for="minScore">Min score</label>
+          <input id="minScore" type="number" value="65" min="0" max="100" />
+        </div>
+        <div>
+          <label for="sortBy">Sort by</label>
+          <select id="sortBy">
+            <option value="score">Deal score</option>
+            <option value="discount">Discount to local benchmark</option>
+            <option value="yield">Yield</option>
+            <option value="valueAdd">Value-add potential</option>
+          </select>
+        </div>
+        <div class="full btn-row">
+          <button class="btn-primary" id="applyBtn">Apply filters</button>
+          <button class="btn-secondary" id="resetBtn">Reset</button>
+          <button class="btn-secondary" id="scanBtn">Simulate auto-scan</button>
+        </div>
+      </div>
 
-<div id="results"></div>
+      <div class="footer-note">
+        Current dataset uses seeded Bristol-area listings for demonstration. Replace <strong>seedListings</strong> with API-fed data from a serverless scanner once the connector is live.
+      </div>
+    </section>
 
-<script>
+    <section class="cards-header" style="margin-top: 22px;">
+      <h2>Best deals ranked</h2>
+      <div class="small">Each card is written to help a buyer decide in under 30 seconds.</div>
+    </section>
 
-const benchmarks = {
-camden:1000,
-islington:950,
-battersea:950,
-greenwich:800,
-leyton:650
-}
+    <section class="cards-grid" id="cards"></section>
+  </div>
 
-function scoreDeal(){
+  <script>
+    const seedListings = [
+      {
+        id: 1,
+        title: 'Detached refurbishment opportunity',
+        area: 'Bristol',
+        microLocation: 'Brislington',
+        postcode: 'BS4',
+        askingPrice: 435000,
+        estimatedValueNow: 495000,
+        estimatedValuePostWorks: 585000,
+        localBenchmarkPsf: 404,
+        pricePerSqft: 323,
+        beds: 4,
+        sqft: 1345,
+        refurbCost: 55000,
+        annualRent: 28800,
+        strategy: 'flip',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Tired stock on a strong owner-occupier street with clear cosmetic upside.'
+      },
+      {
+        id: 2,
+        title: 'Large terrace with HMO angle',
+        area: 'Bristol',
+        microLocation: 'Easton',
+        postcode: 'BS5',
+        askingPrice: 410000,
+        estimatedValueNow: 455000,
+        estimatedValuePostWorks: 560000,
+        localBenchmarkPsf: 388,
+        pricePerSqft: 295,
+        beds: 5,
+        sqft: 1390,
+        refurbCost: 70000,
+        annualRent: 40200,
+        strategy: 'hmo',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Good size, strong letting demand, and layout suggests above-average reconfiguration potential.'
+      },
+      {
+        id: 3,
+        title: 'Family house below Bath fringe comps',
+        area: 'Bath',
+        microLocation: 'Bath outskirts',
+        postcode: 'BA1',
+        askingPrice: 595000,
+        estimatedValueNow: 645000,
+        estimatedValuePostWorks: 730000,
+        localBenchmarkPsf: 486,
+        pricePerSqft: 401,
+        beds: 4,
+        sqft: 1485,
+        refurbCost: 65000,
+        annualRent: 32400,
+        strategy: 'flip',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Margin is narrower than inner Bristol HMOs but Bath family demand supports resale certainty.'
+      },
+      {
+        id: 4,
+        title: '3-bed with strong BTL floor',
+        area: 'Keynsham',
+        microLocation: 'Keynsham',
+        postcode: 'BS31',
+        askingPrice: 325000,
+        estimatedValueNow: 355000,
+        estimatedValuePostWorks: 395000,
+        localBenchmarkPsf: 356,
+        pricePerSqft: 309,
+        beds: 3,
+        sqft: 1052,
+        refurbCost: 28000,
+        annualRent: 19200,
+        strategy: 'btl',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Not the biggest headline upside, but the entry basis is sensible and the downside looks protected.'
+      },
+      {
+        id: 5,
+        title: 'Portishead value-add semi',
+        area: 'Portishead',
+        microLocation: 'Portishead',
+        postcode: 'BS20',
+        askingPrice: 350000,
+        estimatedValueNow: 390000,
+        estimatedValuePostWorks: 455000,
+        localBenchmarkPsf: 372,
+        pricePerSqft: 298,
+        beds: 3,
+        sqft: 1175,
+        refurbCost: 40000,
+        annualRent: 20400,
+        strategy: 'flip',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Useful margin versus local stock and a location likely to appeal to commuter buyers.'
+      },
+      {
+        id: 6,
+        title: 'Weston split-angle corner asset',
+        area: 'Weston',
+        microLocation: 'Weston-super-Mare',
+        postcode: 'BS23',
+        askingPrice: 365000,
+        estimatedValueNow: 405000,
+        estimatedValuePostWorks: 515000,
+        localBenchmarkPsf: 301,
+        pricePerSqft: 242,
+        beds: 5,
+        sqft: 1510,
+        refurbCost: 85000,
+        annualRent: 31800,
+        strategy: 'split',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Works because the basis is cheap. Most attractive if planning/layout can support a stronger split outcome.'
+      },
+      {
+        id: 7,
+        title: 'South Bristol probate-style house',
+        area: 'Bristol',
+        microLocation: 'Knowle',
+        postcode: 'BS4',
+        askingPrice: 375000,
+        estimatedValueNow: 425000,
+        estimatedValuePostWorks: 500000,
+        localBenchmarkPsf: 397,
+        pricePerSqft: 285,
+        beds: 3,
+        sqft: 1315,
+        refurbCost: 50000,
+        annualRent: 22800,
+        strategy: 'flip',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Attractive basis for owner-occupier resale after a clean specification upgrade.'
+      },
+      {
+        id: 8,
+        title: 'Inner Bristol rental-led terrace',
+        area: 'Bristol',
+        microLocation: 'Totterdown',
+        postcode: 'BS3',
+        askingPrice: 465000,
+        estimatedValueNow: 490000,
+        estimatedValuePostWorks: 565000,
+        localBenchmarkPsf: 437,
+        pricePerSqft: 362,
+        beds: 4,
+        sqft: 1283,
+        refurbCost: 48000,
+        annualRent: 30000,
+        strategy: 'btl',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'More expensive entry, but liquidity of area and rental support keep it investable.'
+      },
+      {
+        id: 9,
+        title: 'Redfield HMO conversion candidate',
+        area: 'Bristol',
+        microLocation: 'Redfield',
+        postcode: 'BS5',
+        askingPrice: 395000,
+        estimatedValueNow: 448000,
+        estimatedValuePostWorks: 552000,
+        localBenchmarkPsf: 381,
+        pricePerSqft: 279,
+        beds: 5,
+        sqft: 1416,
+        refurbCost: 72000,
+        annualRent: 41400,
+        strategy: 'hmo',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'One of the stronger blends of low basis, letting support, and post-works value creation.'
+      },
+      {
+        id: 10,
+        title: 'Bedminster light refurb house',
+        area: 'Bristol',
+        microLocation: 'Bedminster',
+        postcode: 'BS3',
+        askingPrice: 420000,
+        estimatedValueNow: 455000,
+        estimatedValuePostWorks: 520000,
+        localBenchmarkPsf: 422,
+        pricePerSqft: 337,
+        beds: 3,
+        sqft: 1245,
+        refurbCost: 35000,
+        annualRent: 23400,
+        strategy: 'flip',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Cleaner project profile with shallower works and quick-turn potential.'
+      },
+      {
+        id: 11,
+        title: 'Bath rental cottage under benchmark',
+        area: 'Bath',
+        microLocation: 'Oldfield Park',
+        postcode: 'BA2',
+        askingPrice: 445000,
+        estimatedValueNow: 485000,
+        estimatedValuePostWorks: 545000,
+        localBenchmarkPsf: 471,
+        pricePerSqft: 389,
+        beds: 3,
+        sqft: 1145,
+        refurbCost: 32000,
+        annualRent: 24600,
+        strategy: 'btl',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Lower yield than Bristol HMOs, but more resilient tenant and resale profile.'
+      },
+      {
+        id: 12,
+        title: 'Kingswood reconfiguration play',
+        area: 'Bristol',
+        microLocation: 'Kingswood',
+        postcode: 'BS15',
+        askingPrice: 345000,
+        estimatedValueNow: 392000,
+        estimatedValuePostWorks: 475000,
+        localBenchmarkPsf: 349,
+        pricePerSqft: 274,
+        beds: 4,
+        sqft: 1260,
+        refurbCost: 58000,
+        annualRent: 25200,
+        strategy: 'split',
+        link: '#',
+        source: 'Seed listing',
+        notes: 'Strong basis against local pricing and viable optionality if layout supports a more creative exit.'
+      }
+    ];
 
-let address=document.getElementById("address").value
-let area=document.getElementById("area").value.toLowerCase()
-let price=parseFloat(document.getElementById("price").value)
-let sqft=parseFloat(document.getElementById("sqft").value)
+    let listings = [...seedListings];
 
-let ppsf=price/sqft
-let benchmark=benchmarks[area] || 900
+    function formatMoney(n) {
+      return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(n);
+    }
 
-let discount=((benchmark-ppsf)/benchmark)*100
+    function pct(a) {
+      return `${Math.round(a)}%`;
+    }
 
-let score=Math.min(100,Math.max(0,discount*4+50))
+    function calculateMetrics(item) {
+      const discountNow = ((item.estimatedValueNow - item.askingPrice) / item.estimatedValueNow) * 100;
+      const valueAdd = ((item.estimatedValuePostWorks - item.askingPrice - item.refurbCost) / item.askingPrice) * 100;
+      const grossYield = (item.annualRent / item.askingPrice) * 100;
+      const psfAdvantage = ((item.localBenchmarkPsf - item.pricePerSqft) / item.localBenchmarkPsf) * 100;
 
-let html=
+      const score = Math.max(0, Math.min(100,
+        (discountNow * 2.0) +
+        (valueAdd * 1.35) +
+        (grossYield * 3.2) +
+        (psfAdvantage * 1.8) +
+        (item.strategy === 'hmo' ? 8 : 0) +
+        (item.strategy === 'split' ? 5 : 0)
+      ));
 
-`<div class="card">
+      return {
+        discountNow,
+        valueAdd,
+        grossYield,
+        psfAdvantage,
+        score: Math.round(score)
+      };
+    }
 
-<h2>${address}</h2>
+    function scoreTone(score) {
+      if (score >= 80) return { cls: '', label: 'High conviction' };
+      if (score >= 65) return { cls: 'warn', label: 'Worth review' };
+      return { cls: 'bad', label: 'Lower priority' };
+    }
 
-<p>Price: £${price.toLocaleString()}</p>
-<p>Size: ${sqft} sqft</p>
+    function buildRationale(item, m) {
+      const strategyLabel = {
+        flip: 'flip',
+        btl: 'buy-to-let',
+        hmo: 'HMO',
+        split: 'reconfiguration'
+      }[item.strategy] || item.strategy;
 
-<p>£/sqft: £${Math.round(ppsf)}</p>
-<p>Area benchmark: £${benchmark}</p>
+      return `${item.microLocation} stands out because it is being offered at ${pct(m.discountNow)} below the engine’s current value estimate and ${pct(m.psfAdvantage)} below the local £/sqft benchmark. On current assumptions, a ${formatMoney(item.refurbCost)} works programme could move value to ${formatMoney(item.estimatedValuePostWorks)}, implying ${pct(m.valueAdd)} value-add over costed basis. Gross yield screens at ${m.grossYield.toFixed(1)}%, giving this ${strategyLabel} angle both income support and resale headroom.`;
+    }
 
-<p>Discount: ${discount.toFixed(1)}%</p>
+    function buildRisk(item, m) {
+      const risks = [];
+      if (item.refurbCost > 70000) risks.push('works budget is meaningful and needs tighter cost control');
+      if (m.grossYield < 5.5) risks.push('yield support is not especially strong');
+      if (item.strategy === 'split') risks.push('upside depends on layout and consent feasibility');
+      if (item.strategy === 'hmo') risks.push('licensing and room configuration need validation');
+      if (m.discountNow < 8) risks.push('headline discount is not exceptionally wide');
+      return risks.length ? `Key risks: ${risks.join('; ')}.` : 'Key risks: no obvious red flag from the initial screen, but valuation and works assumptions still need validating.';
+    }
 
-<p class="score">Deal Score: ${score.toFixed(0)}</p>
+    function cardTemplate(item) {
+      const m = calculateMetrics(item);
+      const tone = scoreTone(m.score);
 
-</div>`
+      return `
+        <article class="panel deal-card">
+          <div class="deal-top">
+            <div>
+              <h3 class="deal-title">${item.title}</h3>
+              <div class="deal-sub">${item.microLocation}, ${item.area} • ${item.beds} beds • ${item.sqft.toLocaleString()} sqft • ${item.postcode}</div>
+            </div>
+            <div class="score ${tone.cls}">
+              <div class="n">${m.score}</div>
+              <div class="t">${tone.label}</div>
+            </div>
+          </div>
 
-document.getElementById("results").innerHTML=html
+          <div class="chips">
+            <span class="chip">${item.strategy.toUpperCase()}</span>
+            <span class="chip">Ask ${formatMoney(item.askingPrice)}</span>
+            <span class="chip">ERV ${formatMoney(item.annualRent / 12)}/mo</span>
+            <span class="chip">Works ${formatMoney(item.refurbCost)}</span>
+          </div>
 
-}
+          <div class="metrics">
+            <div class="metric">
+              <div class="k">Discount to current value</div>
+              <div class="v">${pct(m.discountNow)}</div>
+            </div>
+            <div class="metric">
+              <div class="k">Value-add on costed basis</div>
+              <div class="v">${pct(m.valueAdd)}</div>
+            </div>
+            <div class="metric">
+              <div class="k">Gross yield</div>
+              <div class="v">${m.grossYield.toFixed(1)}%</div>
+            </div>
+            <div class="metric">
+              <div class="k">£/sqft edge</div>
+              <div class="v">${pct(m.psfAdvantage)}</div>
+            </div>
+          </div>
 
-</script>
+          <div class="rationale"><strong>Investment rationale:</strong> ${buildRationale(item, m)}</div>
+          <div class="risk">${buildRisk(item, m)}</div>
+        </article>
+      `;
+    }
 
+    function getFilteredListings() {
+      const location = document.getElementById('locationFilter').value;
+      const maxPrice = Number(document.getElementById('maxPrice').value || 999999999);
+      const minBeds = Number(document.getElementById('minBeds').value || 0);
+      const strategy = document.getElementById('strategyFilter').value;
+      const minScore = Number(document.getElementById('minScore').value || 0);
+      const sortBy = document.getElementById('sortBy').value;
+
+      let result = listings.filter(item => {
+        const m = calculateMetrics(item);
+        const locationPass = location === 'all' || item.area.toLowerCase() === location;
+        const pricePass = item.askingPrice <= maxPrice;
+        const bedPass = item.beds >= minBeds;
+        const strategyPass = strategy === 'all' || item.strategy === strategy;
+        const scorePass = m.score >= minScore;
+        return locationPass && pricePass && bedPass && strategyPass && scorePass;
+      });
+
+      result.sort((a, b) => {
+        const ma = calculateMetrics(a);
+        const mb = calculateMetrics(b);
+        if (sortBy === 'discount') return mb.discountNow - ma.discountNow;
+        if (sortBy === 'yield') return mb.grossYield - ma.grossYield;
+        if (sortBy === 'valueAdd') return mb.valueAdd - ma.valueAdd;
+        return mb.score - ma.score;
+      });
+
+      return result;
+    }
+
+    function updateStats(result) {
+      const metrics = result.map(calculateMetrics);
+      const avgScore = metrics.length ? Math.round(metrics.reduce((a, b) => a + b.score, 0) / metrics.length) : 0;
+      const topMargin = metrics.length ? Math.max(...metrics.map(m => m.valueAdd)) : 0;
+
+      document.getElementById('listingsScanned').textContent = listings.length;
+      document.getElementById('avgScore').textContent = avgScore;
+      document.getElementById('topMargin').textContent = pct(topMargin);
+      document.getElementById('resultCount').textContent = `${result.length} results`;
+      document.getElementById('sortStatus').textContent = `Sorted by ${document.getElementById('sortBy').selectedOptions[0].text.toLowerCase()}`;
+    }
+
+    function render() {
+      const result = getFilteredListings();
+      document.getElementById('cards').innerHTML = result.map(cardTemplate).join('') || `<div class="panel deal-card"><div class="deal-title">No deals match current filters</div><div class="deal-sub">Try lowering the minimum score or widening the price and strategy criteria.</div></div>`;
+      updateStats(result);
+    }
+
+    function resetFilters() {
+      document.getElementById('locationFilter').value = 'all';
+      document.getElementById('maxPrice').value = 650000;
+      document.getElementById('minBeds').value = 3;
+      document.getElementById('strategyFilter').value = 'all';
+      document.getElementById('minScore').value = 65;
+      document.getElementById('sortBy').value = 'score';
+      render();
+    }
+
+    function simulateAutoScan() {
+      const extra = {
+        id: listings.length + 1,
+        title: 'Fresh scan: St George mismatch listing',
+        area: 'Bristol',
+        microLocation: 'St George',
+        postcode: 'BS5',
+        askingPrice: 385000,
+        estimatedValueNow: 438000,
+        estimatedValuePostWorks: 545000,
+        localBenchmarkPsf: 376,
+        pricePerSqft: 268,
+        beds: 4,
+        sqft: 1438,
+        refurbCost: 62000,
+        annualRent: 38400,
+        strategy: 'hmo',
+        link: '#',
+        source: 'Simulated scan',
+        notes: 'Auto-detected as underpriced versus local benchmark and size-adjusted comparables.'
+      };
+      listings = [extra, ...listings];
+      render();
+    }
+
+    document.getElementById('applyBtn').addEventListener('click', render);
+    document.getElementById('resetBtn').addEventListener('click', resetFilters);
+    document.getElementById('scanBtn').addEventListener('click', simulateAutoScan);
+    document.getElementById('sortBy').addEventListener('change', render);
+
+    render();
+  </script>
 </body>
-
 </html>
