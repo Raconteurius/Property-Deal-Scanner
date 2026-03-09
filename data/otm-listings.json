@@ -1,0 +1,32 @@
+{
+  "results": [
+    {
+      "id": "otm_1",
+      "title": "Easton terrace",
+      "address": "Easton, Bristol",
+      "price": 410000,
+      "beds": 4,
+      "type": "Terrace",
+      "source": "OnTheMarket",
+      "link": "https://www.onthemarket.com/",
+      "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
+      "summary": "Large terrace with HMO potential",
+      "tags": ["HMO","Refurb"],
+      "score": 100
+    },
+    {
+      "id": "otm_2",
+      "title": "Brislington refurb",
+      "address": "Brislington, Bristol",
+      "price": 435000,
+      "beds": 3,
+      "type": "Semi-detached",
+      "source": "OnTheMarket",
+      "link": "https://www.onthemarket.com/",
+      "image": "https://images.unsplash.com/photo-1600585154526-990dced4dbed",
+      "summary": "Refurbishment opportunity",
+      "tags": ["Flip","Works"],
+      "score": 96
+    }
+  ]
+}
