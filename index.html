@@ -1590,14 +1590,62 @@ async function simulateScan() {
       });
     }
 
-    function init() {
-      loadShortlist();
-      allDeals = demoDeals();
-      bindEvents();
-      applyFilters();
-      renderShortlist();
+   async function init() {
+  loadShortlist();
+  bindEvents();
+  renderShortlist();
+
+  try {
+    const res = await fetch("/api/deals");
+
+    if (!res.ok) {
+      throw new Error(`API returned ${res.status}`);
     }
 
+    const data = await res.json();
+    const rawItems = Array.isArray(data) ? data : (data.results || data.items || []);
+
+    allDeals = rawItems.map(item => ({
+      id: item.id,
+      title: item.title || item.address || "Untitled",
+      address: item.address || "",
+      area: item.address?.split(",")[0] || "Greater Bristol",
+      summary: item.summary || "Property surfaced by deals endpoint.",
+      fullSummary: item.summary || "Property surfaced by deals endpoint.",
+      image: item.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80",
+      link: item.link || "#",
+      source: item.source || "API",
+      ask: Number(item.price || 0),
+      score: Number(item.score || 0),
+      profit: Number(item.profit || 0),
+      margin: Number(item.margin || 0),
+      beds: Number(item.beds || 0),
+      daysOnMarket: Number(item.daysOnMarket || 0),
+      priceDrop: Boolean(item.priceDrop),
+      stale: Boolean(item.stale),
+      strategyTags: item.tags || [],
+      strategies: {
+        best: Number(item.score || 0),
+        flips: Number(item.score || 0),
+        btl: Number(item.score || 0),
+        hmo: Number(item.score || 0),
+        reconfig: Number(item.score || 0),
+        "price-drop": Number(item.score || 0),
+        stale: Number(item.score || 0)
+      },
+      type: item.type || "Property",
+      rentalAngle: item.uplift || "To be assessed",
+      risk: "Requires review",
+      reviewStatus: "New"
+    }));
+
+    applyFilters();
+  } catch (err) {
+    console.error("Initial deals load failed:", err);
+    allDeals = demoDeals();
+    applyFilters();
+  }
+}
     init();
   </script>
 </body>
