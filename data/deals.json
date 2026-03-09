@@ -14,7 +14,11 @@
     "refurbCost": 55000,
     "annualRent": 28800,
     "dom": 42,
-    "priceDrop": false
+    "priceDrop": false,
+    "strategyHint": "flip",
+    "image": "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80",
+    "link": "https://example.com/listing/brislington-house",
+    "source": "Rightmove"
   },
   {
     "title": "Large terrace with HMO angle",
@@ -31,7 +35,11 @@
     "refurbCost": 70000,
     "annualRent": 40200,
     "dom": 76,
-    "priceDrop": true
+    "priceDrop": true,
+    "strategyHint": "hmo",
+    "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    "link": "https://example.com/listing/easton-terrace",
+    "source": "Zoopla"
   },
   {
     "title": "Portishead value-add semi",
@@ -48,6 +56,10 @@
     "refurbCost": 40000,
     "annualRent": 20400,
     "dom": 94,
-    "priceDrop": true
+    "priceDrop": true,
+    "strategyHint": "flip",
+    "image": "https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&fit=crop&w=1200&q=80",
+    "link": "https://example.com/listing/portishead-semi",
+    "source": "Rightmove"
   }
 ]
