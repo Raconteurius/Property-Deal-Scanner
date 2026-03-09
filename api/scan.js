@@ -15,7 +15,11 @@ module.exports = (req, res) => {
       refurbCost: 60000,
       annualRent: 32400,
       dom: 87,
-      priceDrop: true
+      priceDrop: true,
+      strategyHint: "flip",
+      image: "https://images.unsplash.com/photo-1560184897-ae75f418493e?auto=format&fit=crop&w=1200&q=80",
+      link: "https://example.com/listing/redfield-probate-refurbishment",
+      source: "Rightmove"
     },
     {
       title: "Southville undervalued terrace",
@@ -32,7 +36,32 @@ module.exports = (req, res) => {
       refurbCost: 40000,
       annualRent: 27600,
       dom: 52,
-      priceDrop: false
+      priceDrop: false,
+      strategyHint: "flip",
+      image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+      link: "https://example.com/listing/southville-undervalued-terrace",
+      source: "Zoopla"
+    },
+    {
+      title: "Horfield multi-let conversion angle",
+      area: "Bristol",
+      microLocation: "Horfield",
+      postcode: "BS7",
+      askingPrice: 495000,
+      estimatedValueNow: 535000,
+      estimatedValuePostWorks: 645000,
+      localBenchmarkPsf: 428,
+      pricePerSqft: 348,
+      beds: 6,
+      sqft: 1422,
+      refurbCost: 65000,
+      annualRent: 45600,
+      dom: 101,
+      priceDrop: true,
+      strategyHint: "hmo",
+      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+      link: "https://example.com/listing/horfield-multilet-angle",
+      source: "Rightmove"
     }
   ];
 
