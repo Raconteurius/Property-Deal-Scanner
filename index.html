@@ -577,7 +577,15 @@
       { id: 14, title: 'Fishponds deep-value family refurb', area: 'Bristol', microLocation: 'Fishponds', postcode: 'BS16', askingPrice: 360000, estimatedValueNow: 405000, estimatedValuePostWorks: 490000, localBenchmarkPsf: 366, pricePerSqft: 282, beds: 3, sqft: 1276, refurbCost: 50000, annualRent: 22800, strategyHint: 'flip', dom: 133, priceDrop: true, reducedFrom: 385000 }
     ];
 
-    let listings = [...seedListings];
+let listings = []
+
+async function loadDeals() {
+  const res = await fetch("/data/deals.json")
+  listings = await res.json()
+  render()
+}
+
+loadDeals()
     let activeMode = 'master';
 
     function money(v) {
