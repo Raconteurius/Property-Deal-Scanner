@@ -1,10 +1,7 @@
-const fs = require("fs");
-const path = require("path");
-
 module.exports = async (req, res) => {
-  const filePath = path.join(process.cwd(), "data", "otm-listings.json");
 
   try {
+
     const listings = {
       results: [
         {
@@ -22,17 +19,20 @@ module.exports = async (req, res) => {
           score: 95
         }
       ]
-    };
-
-    fs.writeFileSync(filePath, JSON.stringify(listings, null, 2));
+    }
 
     res.status(200).json({
       message: "OTM dataset refreshed",
-      count: listings.results.length
-    });
+      count: listings.results.length,
+      results: listings.results
+    })
+
   } catch (err) {
+
     res.status(500).json({
       error: "refresh failed"
-    });
+    })
+
   }
-};
+
+}
