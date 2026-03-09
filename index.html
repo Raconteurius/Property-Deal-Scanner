@@ -29,13 +29,8 @@
       --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.22);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -731,39 +726,17 @@
     }
 
     @media (max-width: 1380px) {
-      .metric-row {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .filters-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .cards-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .top-opps {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+      .metric-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .filters-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .top-opps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
     @media (max-width: 1100px) {
-      .top-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .side-stack {
-        grid-template-rows: auto auto;
-      }
-
-      .shortlist-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .short-card-inner {
-        grid-template-columns: 220px 1fr;
-      }
+      .top-grid { grid-template-columns: 1fr; }
+      .side-stack { grid-template-rows: auto auto; }
+      .shortlist-grid { grid-template-columns: 1fr; }
+      .short-card-inner { grid-template-columns: 220px 1fr; }
     }
 
     @media (max-width: 820px) {
@@ -777,9 +750,7 @@
         padding: 20px;
       }
 
-      .hero h1 {
-        font-size: 42px;
-      }
+      .hero h1 { font-size: 42px; }
 
       .metric-row,
       .filters-grid,
@@ -788,13 +759,8 @@
         grid-template-columns: 1fr;
       }
 
-      .btn-row {
-        grid-template-columns: 1fr;
-      }
-
-      .short-card-inner {
-        grid-template-columns: 1fr;
-      }
+      .btn-row { grid-template-columns: 1fr; }
+      .short-card-inner { grid-template-columns: 1fr; }
 
       .short-img,
       .deal-image {
@@ -828,22 +794,22 @@
         <div class="metric-row">
           <div class="metric">
             <div class="k">Listings scanned</div>
-            <div class="v" id="metricScanned">3</div>
+            <div class="v" id="metricScanned">0</div>
             <div class="s">Results currently loaded</div>
           </div>
           <div class="metric">
             <div class="k">Average master score</div>
-            <div class="v" id="metricAvgScore">99</div>
+            <div class="v" id="metricAvgScore">0</div>
             <div class="s">Across filtered live cards</div>
           </div>
           <div class="metric">
             <div class="k">Top margin</div>
-            <div class="v" id="metricTopMargin">19%</div>
+            <div class="v" id="metricTopMargin">0%</div>
             <div class="s">Best current pricing edge</div>
           </div>
           <div class="metric">
             <div class="k">Price drop flags</div>
-            <div class="v" id="metricPriceDrops">2</div>
+            <div class="v" id="metricPriceDrops">0</div>
             <div class="s">Detected discounted stock</div>
           </div>
           <div class="metric">
@@ -885,7 +851,7 @@
     <section class="shell filters">
       <div class="filters-top">
         <h2>Bristol deal filters</h2>
-        <div class="sub"><span id="resultsMeta">3 results</span> • sorted by <span id="sortMeta">master score</span></div>
+        <div class="sub"><span id="resultsMeta">0 results</span> • sorted by <span id="sortMeta">master score</span></div>
       </div>
 
       <div class="filters-grid">
@@ -898,6 +864,7 @@
             <option value="Portishead">Portishead</option>
             <option value="Redland">Redland</option>
             <option value="Clifton">Clifton</option>
+            <option value="Bedminster">Bedminster</option>
           </select>
         </div>
 
@@ -940,7 +907,7 @@
             <option value="score">Master score</option>
             <option value="price-asc">Price ascending</option>
             <option value="price-desc">Price descending</option>
-            <option value="profit">Profit</option>
+            <option value="profit">Margin</option>
             <option value="days">Days on market</option>
           </select>
         </div>
@@ -1011,7 +978,7 @@
     </section>
 
     <div class="footer-note">
-      V5 shortlist-enabled interface. Next step after this: swap demo data for live /api/deals and /api/scan payloads with stable IDs.
+      V5 shortlist-enabled interface with support for old and new scoring schemas.
     </div>
   </div>
 
@@ -1047,7 +1014,9 @@
           type: "Terrace",
           rentalAngle: "Potential 6-bed HMO angle",
           risk: "Check licensing and room sizing",
-          reviewStatus: "New"
+          reviewStatus: "New",
+          estimatedValue: 0,
+          refurbCost: 0
         },
         {
           id: "brislington_flip_002",
@@ -1072,7 +1041,9 @@
           type: "Semi-detached",
           rentalAngle: "Limited pure yield angle",
           risk: "Refurb budget discipline required",
-          reviewStatus: "New"
+          reviewStatus: "New",
+          estimatedValue: 0,
+          refurbCost: 0
         },
         {
           id: "portishead_btl_003",
@@ -1097,82 +1068,9 @@
           type: "Semi-detached",
           rentalAngle: "Strong vanilla BTL profile",
           risk: "Check local rent reality vs underwriting",
-          reviewStatus: "New"
-        },
-        {
-          id: "redland_reconfig_004",
-          title: "Redland",
-          address: "Redland, Bristol",
-          area: "Redland",
-          summary: "Period house with reconfiguration optionality",
-          fullSummary: "Premium location stock where the real angle is intelligent reconfiguration rather than basic flip mechanics.",
-          image: "https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&fit=crop&w=1400&q=80",
-          link: "https://www.rightmove.co.uk/",
-          source: "Rightmove",
-          ask: 625000,
-          score: 87,
-          profit: 105000,
-          margin: 17,
-          beds: 5,
-          daysOnMarket: 95,
-          priceDrop: false,
-          stale: true,
-          strategyTags: ["Reconfig", "Period", "Prime area"],
-          strategies: { best: 87, flips: 69, btl: 77, hmo: 73, reconfig: 96, "price-drop": 55, stale: 89 },
-          type: "Terrace",
-          rentalAngle: "Possible premium family rental",
-          risk: "Planning and layout execution risk",
-          reviewStatus: "New"
-        },
-        {
-          id: "clifton_price_drop_005",
-          title: "Clifton",
-          address: "Clifton, Bristol",
-          area: "Clifton",
-          summary: "High-quality stock with a recent price reduction",
-          fullSummary: "Less raw upside than the others, but recent repricing means this may be worth watching as a selective acquisition.",
-          image: "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1400&q=80",
-          link: "https://www.zoopla.co.uk/",
-          source: "Zoopla",
-          ask: 680000,
-          score: 76,
-          profit: 45000,
-          margin: 7,
-          beds: 3,
-          daysOnMarket: 67,
-          priceDrop: true,
-          stale: true,
-          strategyTags: ["Price drop", "Prime", "Low-risk"],
-          strategies: { best: 76, flips: 51, btl: 70, hmo: 33, reconfig: 64, "price-drop": 97, stale: 78 },
-          type: "Flat/House",
-          rentalAngle: "Conservative prime lettings profile",
-          risk: "Limited margin if refurb overruns",
-          reviewStatus: "New"
-        },
-        {
-          id: "fishponds_stale_006",
-          title: "Fishponds",
-          address: "Fishponds, Bristol",
-          area: "Fishponds",
-          summary: "Stale detached listing with heavier works angle",
-          fullSummary: "Longer time on market and softer buyer competition create a negotiable setup if the works scope remains controlled.",
-          image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1400&q=80",
-          link: "https://www.rightmove.co.uk/",
-          source: "Rightmove",
-          ask: 520000,
-          score: 82,
-          profit: 90000,
-          margin: 15,
-          beds: 4,
-          daysOnMarket: 126,
-          priceDrop: false,
-          stale: true,
-          strategyTags: ["Stale", "Detached", "Works"],
-          strategies: { best: 82, flips: 86, btl: 67, hmo: 44, reconfig: 71, "price-drop": 49, stale: 100 },
-          type: "Detached",
-          rentalAngle: "Limited as-is yield",
-          risk: "Need accurate capex view",
-          reviewStatus: "New"
+          reviewStatus: "New",
+          estimatedValue: 0,
+          refurbCost: 0
         }
       ];
     }
@@ -1198,9 +1096,89 @@
         .replaceAll("'", "&#039;");
     }
 
+    function computeMargin(price, estimatedValue, refurbCost, explicitMargin) {
+      const explicit = Number(explicitMargin || 0);
+      if (explicit) return explicit;
+
+      const priceNum = Number(price || 0);
+      const valueNum = Number(estimatedValue || 0);
+      const refurbNum = Number(refurbCost || 0);
+
+      if (valueNum > 0) {
+        return valueNum - priceNum - refurbNum;
+      }
+
+      return 0;
+    }
+
+    function normalizeApiDeal(item) {
+      const price = Number(item.price || item.ask || 0);
+      const estimatedValue = Number(item.estimatedValue || 0);
+      const refurbCost = Number(item.refurbCost || 0);
+
+      const masterScore = Number(item.scores?.master ?? item.score ?? 0);
+      const bmvScore = Number(item.scores?.bmv ?? masterScore);
+      const flipScore = Number(item.scores?.flip ?? masterScore);
+      const hmoScore = Number(item.scores?.hmo ?? masterScore);
+
+      const strategyTags = Array.isArray(item.tags)
+        ? item.tags
+        : Array.isArray(item.strategy)
+        ? item.strategy
+        : [];
+
+      const area = item.area || (item.address ? item.address.split(",")[0].trim() : "Greater Bristol");
+      const marginValue = computeMargin(price, estimatedValue, refurbCost, item.margin);
+      const daysOnMarket = Number(item.daysOnMarket || 0);
+      const priceDrop = Boolean(item.priceDrop);
+      const stale = Boolean(item.stale || daysOnMarket >= 60);
+
+      return {
+        id: item.id,
+        title: item.title || item.address || "Untitled",
+        address: item.address || "",
+        area,
+        summary: item.summary || "Property surfaced by API.",
+        fullSummary: item.summary || "Property surfaced by API.",
+        image: item.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80",
+        link: item.link || "#",
+        source: item.source || "API",
+        ask: price,
+        score: masterScore,
+        profit: marginValue,
+        margin: marginValue,
+        beds: Number(item.beds || 0),
+        daysOnMarket,
+        priceDrop,
+        stale,
+        strategyTags,
+        strategies: {
+          best: masterScore,
+          flips: flipScore,
+          btl: bmvScore,
+          hmo: hmoScore,
+          reconfig: flipScore,
+          "price-drop": priceDrop ? Math.max(masterScore, 80) : masterScore,
+          stale: stale ? Math.max(masterScore, 80) : masterScore
+        },
+        type: item.type || "Property",
+        rentalAngle: item.uplift || item.rentalAngle || "To be assessed",
+        risk: item.risk || "Requires review",
+        reviewStatus: item.reviewStatus || "New",
+        estimatedValue,
+        refurbCost,
+        scores: {
+          master: masterScore,
+          bmv: bmvScore,
+          flip: flipScore,
+          hmo: hmoScore
+        }
+      };
+    }
+
     function scoreForMode(deal) {
-      if (currentMode === "best") return deal.score;
-      return deal.strategies?.[currentMode] ?? deal.score;
+      if (currentMode === "best") return deal.scores?.master ?? deal.score ?? 0;
+      return deal.strategies?.[currentMode] ?? deal.scores?.master ?? deal.score ?? 0;
     }
 
     function loadShortlist() {
@@ -1294,7 +1272,7 @@
         if (sortBy === "score") return scoreForMode(b) - scoreForMode(a);
         if (sortBy === "price-asc") return a.ask - b.ask;
         if (sortBy === "price-desc") return b.ask - a.ask;
-        if (sortBy === "profit") return b.profit - a.profit;
+        if (sortBy === "profit") return (b.margin || 0) - (a.margin || 0);
         if (sortBy === "days") return b.daysOnMarket - a.daysOnMarket;
         return scoreForMode(b) - scoreForMode(a);
       });
@@ -1303,7 +1281,7 @@
         sortBy === "score" ? "master score"
         : sortBy === "price-asc" ? "price ascending"
         : sortBy === "price-desc" ? "price descending"
-        : sortBy === "profit" ? "profit"
+        : sortBy === "profit" ? "margin"
         : "days on market";
 
       renderTopOpps();
@@ -1319,8 +1297,11 @@
         : 0;
       document.getElementById("metricAvgScore").textContent = avg || "0";
 
-      const topMargin = filteredDeals.length ? Math.max(...filteredDeals.map(d => d.margin)) : 0;
-      document.getElementById("metricTopMargin").textContent = `${topMargin}%`;
+      const topMargin = filteredDeals.length
+        ? Math.max(...filteredDeals.map(d => Number(d.margin || 0)))
+        : 0;
+      document.getElementById("metricTopMargin").textContent =
+        topMargin > 0 ? formatMoney(topMargin) : "£0";
 
       const priceDrops = filteredDeals.filter(d => d.priceDrop).length;
       document.getElementById("metricPriceDrops").textContent = formatNumber(priceDrops);
@@ -1358,7 +1339,7 @@
             <p>${escapeHtml(deal.summary)}</p>
           </div>
           <div class="line">
-            Score ${scoreForMode(deal)} • Ask ${formatMoney(deal.ask)} • Profit ${formatMoney(deal.profit)}
+            Score ${scoreForMode(deal)} • Ask ${formatMoney(deal.ask)} • Margin ${formatMoney(deal.margin || 0)}
           </div>
         `;
         el.appendChild(card);
@@ -1391,10 +1372,11 @@
 
               <div class="micro-row">
                 <span class="micro">${formatMoney(item.ask)}</span>
-                <span class="micro">Score ${item.score}</span>
+                <span class="micro">Score ${item.scores?.master ?? item.score}</span>
                 <span class="micro">${escapeHtml(item.type)}</span>
                 <span class="micro">${item.daysOnMarket} DOM</span>
                 <span class="micro">${escapeHtml(item.reviewStatus || "New")}</span>
+                ${item.margin ? `<span class="micro">Margin ${formatMoney(item.margin)}</span>` : ""}
               </div>
 
               <div class="short-address">${escapeHtml(item.fullSummary)}</div>
@@ -1442,6 +1424,11 @@
 
       filteredDeals.forEach(deal => {
         const saved = isShortlisted(deal.id);
+        const masterScore = deal.scores?.master ?? deal.score ?? 0;
+        const bmvScore = deal.scores?.bmv ?? "-";
+        const flipScore = deal.scores?.flip ?? "-";
+        const hmoScore = deal.scores?.hmo ?? "-";
+
         const card = document.createElement("article");
         card.className = "deal-card";
         card.innerHTML = `
@@ -1449,7 +1436,7 @@
             <img class="deal-image" src="${escapeHtml(deal.image)}" alt="${escapeHtml(deal.title)}" />
             <div class="badge-row">
               <div class="badge-stack">
-                <span class="badge">Score ${scoreForMode(deal)}</span>
+                <span class="badge">Score ${masterScore}</span>
                 ${deal.priceDrop ? `<span class="badge good">Price drop</span>` : ""}
                 ${deal.stale ? `<span class="badge">Stale ${deal.daysOnMarket}d</span>` : ""}
               </div>
@@ -1463,7 +1450,7 @@
             <div class="deal-topline">${escapeHtml(deal.source)} • ${escapeHtml(modeLabel(currentMode))}</div>
             <h3>${escapeHtml(deal.title)}</h3>
             <div class="deal-summary">${escapeHtml(deal.summary)}</div>
-            <div class="deal-line"><strong>Score ${scoreForMode(deal)}</strong> • Ask ${formatMoney(deal.ask)} • Profit ${formatMoney(deal.profit)}</div>
+            <div class="deal-line"><strong>Score ${masterScore}</strong> • Ask ${formatMoney(deal.ask)} • Margin ${formatMoney(deal.margin || 0)}</div>
 
             <div class="deal-meta-grid">
               <div class="meta-box">
@@ -1472,11 +1459,11 @@
               </div>
               <div class="meta-box">
                 <div class="mk">Strategy tags</div>
-                <div class="mv">${escapeHtml(deal.strategyTags.join(" • "))}</div>
+                <div class="mv">${escapeHtml((deal.strategyTags || []).join(" • "))}</div>
               </div>
               <div class="meta-box">
-                <div class="mk">Rental / use angle</div>
-                <div class="mv">${escapeHtml(deal.rentalAngle)}</div>
+                <div class="mk">Score breakdown</div>
+                <div class="mv">BMV ${bmvScore} • Flip ${flipScore} • HMO ${hmoScore}</div>
               </div>
               <div class="meta-box">
                 <div class="mk">Risk focus</div>
@@ -1514,58 +1501,25 @@
       applyFilters();
     }
 
-async function simulateScan() {
-  try {
-    const res = await fetch("/api/scan");
+    async function simulateScan() {
+      try {
+        const res = await fetch("/api/scan");
 
-    if (!res.ok) {
-      throw new Error(`API returned ${res.status}`);
+        if (!res.ok) {
+          throw new Error(`API returned ${res.status}`);
+        }
+
+        const data = await res.json();
+        const rawItems = Array.isArray(data) ? data : (data.results || data.items || []);
+        allDeals = rawItems.map(normalizeApiDeal);
+
+        applyFilters();
+      } catch (err) {
+        console.error("Scan failed:", err);
+        allDeals = demoDeals().map(d => ({ ...d }));
+        applyFilters();
+      }
     }
-
-    const data = await res.json();
-    const rawItems = Array.isArray(data) ? data : (data.results || data.items || []);
-
-    allDeals = rawItems.map(item => ({
-      id: item.id,
-      title: item.title || item.address || "Untitled",
-      address: item.address || "",
-      area: item.address?.split(",")[0] || "Greater Bristol",
-      summary: item.summary || "Property surfaced by scan.",
-      fullSummary: item.summary || "Property surfaced by scan.",
-      image: item.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80",
-      link: item.link || "#",
-      source: item.source || "API",
-      ask: Number(item.price || 0),
-      score: Number(item.score || 0),
-      profit: Number(item.profit || 0),
-      margin: Number(item.margin || 0),
-      beds: Number(item.beds || 0),
-      daysOnMarket: Number(item.daysOnMarket || 0),
-      priceDrop: Boolean(item.priceDrop),
-      stale: Boolean(item.stale),
-      strategyTags: item.tags || [],
-      strategies: {
-        best: Number(item.score || 0),
-        flips: Number(item.score || 0),
-        btl: Number(item.score || 0),
-        hmo: Number(item.score || 0),
-        reconfig: Number(item.score || 0),
-        "price-drop": Number(item.score || 0),
-        stale: Number(item.score || 0)
-      },
-      type: item.type || "Property",
-      rentalAngle: item.uplift || "To be assessed",
-      risk: "Requires review",
-      reviewStatus: "New"
-    }));
-
-    applyFilters();
-  } catch (err) {
-    console.error("Scan failed:", err);
-    allDeals = demoDeals().map(d => ({ ...d }));
-    applyFilters();
-  }
-}
 
     function bindEvents() {
       document.getElementById("applyFiltersBtn").addEventListener("click", applyFilters);
@@ -1590,62 +1544,30 @@ async function simulateScan() {
       });
     }
 
-   async function init() {
-  loadShortlist();
-  bindEvents();
-  renderShortlist();
+    async function init() {
+      loadShortlist();
+      bindEvents();
+      renderShortlist();
 
-  try {
-    const res = await fetch("/api/deals");
+      try {
+        const res = await fetch("/api/deals");
 
-    if (!res.ok) {
-      throw new Error(`API returned ${res.status}`);
+        if (!res.ok) {
+          throw new Error(`API returned ${res.status}`);
+        }
+
+        const data = await res.json();
+        const rawItems = Array.isArray(data) ? data : (data.results || data.items || []);
+        allDeals = rawItems.map(normalizeApiDeal);
+
+        applyFilters();
+      } catch (err) {
+        console.error("Initial deals load failed:", err);
+        allDeals = demoDeals();
+        applyFilters();
+      }
     }
 
-    const data = await res.json();
-    const rawItems = Array.isArray(data) ? data : (data.results || data.items || []);
-
-    allDeals = rawItems.map(item => ({
-      id: item.id,
-      title: item.title || item.address || "Untitled",
-      address: item.address || "",
-      area: item.address?.split(",")[0] || "Greater Bristol",
-      summary: item.summary || "Property surfaced by deals endpoint.",
-      fullSummary: item.summary || "Property surfaced by deals endpoint.",
-      image: item.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80",
-      link: item.link || "#",
-      source: item.source || "API",
-      ask: Number(item.price || 0),
-      score: Number(item.score || 0),
-      profit: Number(item.profit || 0),
-      margin: Number(item.margin || 0),
-      beds: Number(item.beds || 0),
-      daysOnMarket: Number(item.daysOnMarket || 0),
-      priceDrop: Boolean(item.priceDrop),
-      stale: Boolean(item.stale),
-      strategyTags: item.tags || [],
-      strategies: {
-        best: Number(item.score || 0),
-        flips: Number(item.score || 0),
-        btl: Number(item.score || 0),
-        hmo: Number(item.score || 0),
-        reconfig: Number(item.score || 0),
-        "price-drop": Number(item.score || 0),
-        stale: Number(item.score || 0)
-      },
-      type: item.type || "Property",
-      rentalAngle: item.uplift || "To be assessed",
-      risk: "Requires review",
-      reviewStatus: "New"
-    }));
-
-    applyFilters();
-  } catch (err) {
-    console.error("Initial deals load failed:", err);
-    allDeals = demoDeals();
-    applyFilters();
-  }
-}
     init();
   </script>
 </body>
